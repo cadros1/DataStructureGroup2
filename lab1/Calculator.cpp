@@ -61,9 +61,11 @@ int main(){
 
 author 高洪森*/
 void handleExit(){
-    if(cin.get()=='Y'||cin.get()=='y')
+    char answer;
+    cin>>answer;
+    if(answer=='Y'||answer=='y')
         return;
-    else if(cin.get()=='N'||cin.get()=='n'){
+    else if(answer=='N'||answer=='n'){
         cout<<"感谢您的使用。";
         exit(1);
     }

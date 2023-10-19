@@ -10,7 +10,7 @@ void handleExit();
 stack<double> numStack;
 stack<char> opStack;
 
-//author 高洪森
+//@author 高洪森
 int main(){
     cout<<"\n===================欢迎使用计算器==================="<<endl;
     cout<<"\n在下方输入您的表达式并以\"=\"结尾，程序将自动为此表达式求值"<<endl;
@@ -28,6 +28,10 @@ int main(){
                 numStack.push(number);
             }
             else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'||expression=='%'||expression=='^'||expression=='&'||expression=='='){
+                if(expression=='-'){
+                    //TODO
+                    //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
+                }
                 handleOperator(expression);
             }
             else{
@@ -37,7 +41,6 @@ int main(){
                 handleExit();
                 break;
             }
-            //！！！仅在handleOperator未完成时使用。当handleOperator中定义了'='的处理后，应删除掉此条if语句
             if(expression=='='){
                 cout<<"计算结果为："<<numStack.top()<<endl;
                 cout<<"\n您希望继续使用计算器吗？(Y/N)： ";
@@ -58,8 +61,7 @@ int main(){
 }
 
 /*当计算结束时处理是否退出
-
-author 高洪森*/
+@author 高洪森*/
 void handleExit(){
     char answer;
     cin>>answer;
@@ -76,8 +78,7 @@ void handleExit(){
 }
 
 /*根据输入的操作符进行不同的处理
-
-author 高洪森*/
+@author 高洪森*/
 void handleOperator(const char inputOp){
     if(opStack.empty()){
         opStack.push(inputOp);
@@ -125,8 +126,7 @@ void handleOperator(const char inputOp){
 }
 
 /*返回操作符的栈内优先级
-
-author 高洪森*/
+@author 高洪森*/
 int isp(const char op){
     switch(op){
         case '+':
@@ -155,7 +155,7 @@ int isp(const char op){
 }
 
 /*返回该操作符的栈外优先级
-author 高洪森*/
+@author 高洪森*/
 int osp(const char op){
     switch(op){
         case '+':

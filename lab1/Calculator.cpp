@@ -1,11 +1,15 @@
 #include<iostream>
 #include<stack>
+#include<math.h>
 using namespace std;
 
 int isp(const char op);
 int osp(const char op);
 void handleOperator(const char inputOp);
 void handleExit();
+double RootOf(double num1, double num2); //返回num1开num2次方根
+double f(double x, double power, double num);//RootOf辅助函数
+double df(double x, double power);//RootOf辅助函数
 
 stack<double> numStack;
 stack<char> opStack;
@@ -99,16 +103,27 @@ void handleOperator(const char inputOp){
                 break;
             case '-':
                 //TODO
+                numStack.push(num1-num2);
+                break;
             case '*':
                 //TODO
+                numStack.push(num1*num2);
+                break;
             case '/':
-                //TODO
+                numStack.push(num1/num2);
+                break;
             case '%':
                 //TODO
+                numStack.push((int)num1 % (int)num2);
+                break;
             case '^':
                 //TODO
+                numStack.push(pow(num1, num2));
+                break;
             case '&':
                 //TODO
+                numStack.push(RootOf(num1, num2));
+                break;
             case '=':
                 return;
             default:
@@ -182,3 +197,24 @@ int osp(const char op){
             return 0;
     }
 }
+
+//返回num1开num2次方根
+double RootOf(double num1, double num2) {
+    double guess = 2.0;
+    
+    while (abs(num1 - pow(guess, num2)) > 0.000000001)
+    {
+        guess = guess - f(guess, num2, num1) / df(guess, num2);
+    }
+    
+    return guess;
+} 
+
+double f(double x, double power, double num) {
+    return pow(x, power) - num;
+}
+
+double df(double x, double power) {
+    return power * pow(x, (power-1));
+}
+

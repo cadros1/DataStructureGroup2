@@ -22,8 +22,9 @@ int main(){
 
     for(;;){
         cout<<"\n请输入您的表达式：";
+	char expression = 'a' ;
         for(;;){
-            char expression;
+            char pre = expression;
             cin>>expression;
             if(expression>='0'&&expression<='9'){
                 cin.putback(expression);
@@ -34,10 +35,37 @@ int main(){
             else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'
                     ||expression=='%'||expression=='^'||expression=='&'||expression=='='
                     ||expression=='('||expression==')'){
+                if((pre <'0'|| pre>'9')&&expression!='-'&&expression!='('&&pre!=')'){  //何旭瑞 
+				            cout<<"\n检查到非法字符，计算中止。您希望重新开始输入吗？(Y/N)： ";
+                			numStack=stack<double>();
+                			opStack=stack<char>();
+                			handleExit();
+                			break;
+                		}
                 if(expression=='-'){
-                    //TODO
+
+                    //何旭瑞 
                     //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
-                }
+					if(pre <='0'|| pre>='9'){
+						cin>>expression;
+						pre = expression;
+            			if(expression>='0'&&expression<='9'){
+               				cin.putback(expression);
+               			 	double number;
+               			 	cin>>number;
+                			numStack.push(0-number);
+							continue;
+           			 		}
+						else{
+                			cout<<"\n检查到非法字符，计算中止。您希望重新开始输入吗？(Y/N)： ";
+                			numStack=stack<double>();
+                			opStack=stack<char>();
+                			handleExit();
+                			break;
+               			}
+					}
+				}
+				pre = expression;
                 handleOperator(expression);
             }
             else{
@@ -224,4 +252,3 @@ double f(double x, double power, double num) {
 double df(double x, double power) {
     return power * pow(x, (power-1));
 }
-

@@ -31,7 +31,9 @@ int main(){
                 cin>>number;
                 numStack.push(number);
             }
-            else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'||expression=='%'||expression=='^'||expression=='&'||expression=='='){
+            else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'
+                    ||expression=='%'||expression=='^'||expression=='&'||expression=='='
+                    ||expression=='('||expression==')'){
                 if(expression=='-'){
                     //TODO
                     //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
@@ -124,6 +126,10 @@ void handleOperator(const char inputOp){
                 //TODO
                 numStack.push(RootOf(num1, num2));
                 break;
+            case '(':
+                return;   
+            case ')':
+                return; 
             case '=':
                 return;
             default:
@@ -199,6 +205,7 @@ int osp(const char op){
 }
 
 //返回num1开num2次方根
+//作者：董庆宇
 double RootOf(double num1, double num2) {
     double guess = 2.0;
     

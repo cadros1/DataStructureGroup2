@@ -24,7 +24,7 @@ int main(){
 
     for(;;){
         cout<<"\n请输入您的表达式：";
-	    char expression = 'a' ;
+	char expression = 'a' ;
         char lastPre = expression;
         for(;;lastPre=expression){
             cin>>expression;
@@ -37,28 +37,28 @@ int main(){
             else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'
                     ||expression=='%'||expression=='^'||expression=='&'||expression=='='
                     ||expression=='('||expression==')'){
-                if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){  //何旭瑞
-				    unknownExpressionException();
+		    if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){  //何旭瑞
+			unknownExpressionException();
                 	break;
-                }
-                if(expression=='-'){
+                    }
+		    if(expression=='-'){
                     //何旭瑞 
                     //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
-					if(lastPre <='0'|| lastPre>='9'){
-						cin>>expression;
+			if(lastPre <='0'|| lastPre>='9'){
+				cin>>expression;
             			if(expression>='0'&&expression<='9'){
                				cin.putback(expression);
                			 	double number;
                			 	cin>>number;
                 			numStack.push(0-number);
-                            continue;
-           			 	}
-						else{
-                            unknownExpressionException();
+                            		continue;
+           			 }
+				else{
+                            		unknownExpressionException();
                 			break;
                			}
-					}
-				}
+			}
+		    }
                 handleOperator(expression);
             }
             else{

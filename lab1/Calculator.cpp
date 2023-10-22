@@ -122,6 +122,13 @@ void handleExit(){
     }
 }
 
+void getTwoNumbers(double *num1,double *num2){
+    *num2=numStack.top();
+    numStack.pop();
+    *num1=numStack.top();
+    numStack.pop();
+}
+
 /*根据输入的操作符进行不同的处理
 @author 高洪森*/
 void handleOperator(const char inputOp){
@@ -134,30 +141,34 @@ void handleOperator(const char inputOp){
         return;
     }
     else if(isp(opStack.top())>osp(inputOp)){
-        double num2=numStack.top();
-        numStack.pop();
-        double num1=numStack.top();
-        numStack.pop();
+        double num1,num2;
         switch(opStack.top()){
             case '+':
+                getTwoNumbers(&num1,&num2);
                 numStack.push(num1+num2);
                 break;
             case '-':
+                getTwoNumbers(&num1,&num2);
                 numStack.push(num1-num2);
                 break;
             case '*':
+                getTwoNumbers(&num1,&num2);
                 numStack.push(num1*num2);
                 break;
             case '/':
+                getTwoNumbers(&num1,&num2);
                 numStack.push(num1/num2);
                 break;
             case '%':
+                getTwoNumbers(&num1,&num2);
                 numStack.push(fmod(num1,num2));
                 break;
             case '^':
+                getTwoNumbers(&num1,&num2);
                 numStack.push(pow(num1, num2));
                 break;
             case '&':
+                getTwoNumbers(&num1,&num2);
                 numStack.push(RootOf(num1, num2));
                 break;
             case '(':

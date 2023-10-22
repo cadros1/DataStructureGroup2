@@ -25,8 +25,8 @@ int main(){
     for(;;){
         cout<<"\n请输入您的表达式：";
 	    char expression = 'a' ;
-        for(;;){
-            char lastPre = expression;
+        char lastPre = expression;
+        for(;;lastPre=expression){
             cin>>expression;
             if(expression>='0'&&expression<='9'){
                 cin.putback(expression);
@@ -51,6 +51,7 @@ int main(){
                			 	double number;
                			 	cin>>number;
                 			numStack.push(0-number);
+                            continue;
            			 	}
 						else{
                             unknownExpressionException();
@@ -58,7 +59,6 @@ int main(){
                			}
 					}
 				}
-                lastPre=expression;
                 handleOperator(expression);
             }
             else{

@@ -24,8 +24,9 @@ int main(){
 
     for(;;){
         cout<<"\n请输入您的表达式：";
-	    char expression = 'a' ;
-        char lastPre = expression;
+	    char expression='a';
+        char lastPre=expression;
+        numStack.push(0);
         for(;;lastPre=expression){
             cin>>expression;
             if(expression>='0'&&expression<='9'){
@@ -42,22 +43,22 @@ int main(){
                     break;
                 }
 		        if(expression=='-'){
-                    //何旭瑞 
+                    //何旭瑞
                     //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
-			        if(lastPre <='0'|| lastPre>='9'){
-			        	cin>>expression;
-                    	if(expression>='0'&&expression<='9'){
-                    		cin.putback(expression);
-                    	 	double number;
-                    	 	cin>>number;
-                    		numStack.push(0-number);
-                            continue;
-           	        	}
-			        	else{
-                            unknownExpressionException();
-                        	break;
-                       	}
-			        }
+			        //if(lastPre <='0'|| lastPre>='9'){
+			        //	cin>>expression;
+                    //	if(expression>='0'&&expression<='9'){
+                    //		cin.putback(expression);
+                    //	 	double number;
+                    //	 	cin>>number;
+                    //		numStack.push(0-number);
+                    //        continue;
+           	        //	}
+			        //    else{
+                    //          unknownExpressionException();
+                    //          	break;
+                    //    }
+			        //}
 		        }
                 handleOperator(expression);
             }
@@ -70,10 +71,10 @@ int main(){
                     unknownExpressionException();
                     break;
                 }
-                if(numStack.size()!=1){
-                    unknownExpressionException();
-                    break;
-                }
+                //if(numStack.size()!=1){
+                //    unknownExpressionException();
+                //    break;
+                //}
                 cout<<"计算结果为："<<numStack.top()<<endl;
                 cout<<"\n您希望继续使用计算器吗？(Y/N)： ";
                 cin.ignore(1000,'\n');
@@ -148,8 +149,11 @@ void handleOperator(const char inputOp){
                 numStack.push(num1+num2);
                 break;
             case '-':
-                getTwoNumbers(&num1,&num2);
-                numStack.push(num1-num2);
+                num1=numStack.top();
+                numStack.pop();
+                numStack.push(-num1);
+                opStack.pop();
+                opStack.push('+');
                 break;
             case '*':
                 getTwoNumbers(&num1,&num2);

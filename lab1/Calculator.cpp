@@ -26,7 +26,6 @@ int main(){
         cout<<"\n请输入您的表达式：";
 	    char expression='a';
         char lastPre=expression;
-        numStack.push(0);
         for(;;lastPre=expression){
             cin>>expression;
             if(expression>='0'&&expression<='9'){
@@ -71,10 +70,10 @@ int main(){
                     unknownExpressionException();
                     break;
                 }
-                //if(numStack.size()!=1){
-                //    unknownExpressionException();
-                //    break;
-                //}
+                if(numStack.size()!=1){
+                    unknownExpressionException();
+                    break;
+                }
                 cout<<"计算结果为："<<numStack.top()<<endl;
                 cout<<"\n您希望继续使用计算器吗？(Y/N)： ";
                 cin.ignore(1000,'\n');

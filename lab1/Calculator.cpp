@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stack>
 #include<math.h>
+#include<cmath>
 using namespace std;
 
 int isp(const char op);
@@ -22,7 +23,7 @@ int main(){
 
     for(;;){
         cout<<"\n请输入您的表达式：";
-	char expression = 'a' ;
+	    char expression = 'a' ;
         for(;;){
             char lastPre = expression;
             cin>>expression;
@@ -35,29 +36,28 @@ int main(){
             else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'
                     ||expression=='%'||expression=='^'||expression=='&'||expression=='='
                     ||expression=='('||expression==')'){
-                if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){  //何旭瑞 
-				            cout<<"\n检查到非法字符，计算中止。您希望重新开始输入吗？(Y/N)： ";
-                			numStack=stack<double>();
-                			opStack=stack<char>();
-                			handleExit();
-                			break;
-                		}
+                if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){  //何旭瑞
+				    cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
+                    cin.ignore(1000,'\n');
+                	numStack=stack<double>();
+                	opStack=stack<char>();
+                	handleExit();
+                	break;
+                }
                 if(expression=='-'){
-
                     //何旭瑞 
                     //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
 					if(lastPre <='0'|| lastPre>='9'){
 						cin>>expression;
-						lastPre = expression;
             			if(expression>='0'&&expression<='9'){
                				cin.putback(expression);
                			 	double number;
                			 	cin>>number;
                 			numStack.push(0-number);
-							continue;
-           			 		}
+           			 	}
 						else{
-                			cout<<"\n检查到非法字符，计算中止。您希望重新开始输入吗？(Y/N)： ";
+                			cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
+                            cin.ignore(1000,'\n');
                 			numStack=stack<double>();
                 			opStack=stack<char>();
                 			handleExit();
@@ -65,11 +65,12 @@ int main(){
                			}
 					}
 				}
-				lastPre = expression;
+                lastPre=expression;
                 handleOperator(expression);
             }
             else{
                 cout<<"\n检查到非法字符，计算中止。您希望重新开始输入吗？(Y/N)： ";
+                cin.ignore(1000,'\n');
                 numStack=stack<double>();
                 opStack=stack<char>();
                 handleExit();
@@ -78,6 +79,7 @@ int main(){
             if(expression=='='){
                 cout<<"计算结果为："<<numStack.top()<<endl;
                 cout<<"\n您希望继续使用计算器吗？(Y/N)： ";
+                cin.ignore(1000,'\n');
                 numStack=stack<double>();
                 opStack=stack<char>();
                 handleExit();
@@ -85,6 +87,7 @@ int main(){
             }
             if(cin.peek()=='\n'){
                 cout<<"\n未检查到结束符\'=\'，计算中止。您希望重新开始输入吗？(Y/N)：";
+                cin.ignore(1000,'\n');
                 numStack=stack<double>();
                 opStack=stack<char>();
                 handleExit();
@@ -99,8 +102,10 @@ int main(){
 void handleExit(){
     char answer;
     cin>>answer;
-    if(answer=='Y'||answer=='y')
+    cin.ignore(1000,'\n');
+    if(answer=='Y'||answer=='y'){
         return;
+    }
     else if(answer=='N'||answer=='n'){
         cout<<"感谢您的使用。";
         exit(1);
@@ -132,36 +137,30 @@ void handleOperator(const char inputOp){
                 numStack.push(num1+num2);
                 break;
             case '-':
-                //TODO
                 numStack.push(num1-num2);
                 break;
             case '*':
-                //TODO
                 numStack.push(num1*num2);
                 break;
             case '/':
                 numStack.push(num1/num2);
                 break;
             case '%':
-                //TODO
-                numStack.push((int)num1 % (int)num2);
+                numStack.push(fmod(num1,num2));
                 break;
             case '^':
-                //TODO
                 numStack.push(pow(num1, num2));
                 break;
             case '&':
-                //TODO
                 numStack.push(RootOf(num1, num2));
                 break;
             case '(':
-                return;   
+                return;
             case ')':
-                return; 
+                return;
             case '=':
                 return;
             default:
-                //TODO
                 //这里随便写，因为前面已经校验过了，理论上不会执行到这里
                 break;
         }

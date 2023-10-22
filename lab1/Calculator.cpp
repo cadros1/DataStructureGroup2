@@ -24,7 +24,7 @@ int main(){
         cout<<"\n请输入您的表达式：";
 	char expression = 'a' ;
         for(;;){
-            char pre = expression;
+            char lastPre = expression;
             cin>>expression;
             if(expression>='0'&&expression<='9'){
                 cin.putback(expression);
@@ -35,7 +35,7 @@ int main(){
             else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'
                     ||expression=='%'||expression=='^'||expression=='&'||expression=='='
                     ||expression=='('||expression==')'){
-                if((pre <'0'|| pre>'9')&&expression!='-'&&expression!='('&&pre!=')'){  //何旭瑞 
+                if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){  //何旭瑞 
 				            cout<<"\n检查到非法字符，计算中止。您希望重新开始输入吗？(Y/N)： ";
                 			numStack=stack<double>();
                 			opStack=stack<char>();
@@ -46,9 +46,9 @@ int main(){
 
                     //何旭瑞 
                     //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
-					if(pre <='0'|| pre>='9'){
+					if(lastPre <='0'|| lastPre>='9'){
 						cin>>expression;
-						pre = expression;
+						lastPre = expression;
             			if(expression>='0'&&expression<='9'){
                				cin.putback(expression);
                			 	double number;
@@ -65,7 +65,7 @@ int main(){
                			}
 					}
 				}
-				pre = expression;
+				lastPre = expression;
                 handleOperator(expression);
             }
             else{

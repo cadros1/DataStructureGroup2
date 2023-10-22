@@ -11,6 +11,7 @@ void handleExit();
 double RootOf(double num1, double num2); //返回num1开num2次方根
 double f(double x, double power, double num);//RootOf辅助函数
 double df(double x, double power);//RootOf辅助函数
+void unknownExpressionException();
 
 stack<double> numStack;
 stack<char> opStack;

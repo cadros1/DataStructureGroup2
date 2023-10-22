@@ -70,6 +70,10 @@ int main(){
                     unknownExpressionException();
                     break;
                 }
+                if(numStack.size()!=1){
+                    unknownExpressionException();
+                    break;
+                }
                 cout<<"计算结果为："<<numStack.top()<<endl;
                 cout<<"\n您希望继续使用计算器吗？(Y/N)： ";
                 cin.ignore(1000,'\n');

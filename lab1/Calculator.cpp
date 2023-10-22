@@ -37,11 +37,7 @@ int main(){
                     ||expression=='%'||expression=='^'||expression=='&'||expression=='='
                     ||expression=='('||expression==')'){
                 if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){  //何旭瑞
-				    cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
-                    cin.ignore(1000,'\n');
-                	numStack=stack<double>();
-                	opStack=stack<char>();
-                	handleExit();
+				    unknownExpressionException();
                 	break;
                 }
                 if(expression=='-'){
@@ -56,11 +52,7 @@ int main(){
                 			numStack.push(0-number);
            			 	}
 						else{
-                			cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
-                            cin.ignore(1000,'\n');
-                			numStack=stack<double>();
-                			opStack=stack<char>();
-                			handleExit();
+                            unknownExpressionException();
                 			break;
                			}
 					}
@@ -69,14 +61,14 @@ int main(){
                 handleOperator(expression);
             }
             else{
-                cout<<"\n检查到非法字符，计算中止。您希望重新开始输入吗？(Y/N)： ";
-                cin.ignore(1000,'\n');
-                numStack=stack<double>();
-                opStack=stack<char>();
-                handleExit();
+                unknownExpressionException();
                 break;
             }
             if(expression=='='){
+                if(cin.peek()!='\n'){
+                    unknownExpressionException();
+                    break;
+                }
                 cout<<"计算结果为："<<numStack.top()<<endl;
                 cout<<"\n您希望继续使用计算器吗？(Y/N)： ";
                 cin.ignore(1000,'\n');
@@ -95,6 +87,15 @@ int main(){
             }
         }
     }
+}
+
+void unknownExpressionException(){
+    cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
+    cin.ignore(1000,'\n');
+    numStack=stack<double>();
+    opStack=stack<char>();
+    handleExit();
+    return;
 }
 
 /*当计算结束时处理是否退出

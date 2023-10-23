@@ -222,8 +222,8 @@ int isp(const char op){
     }
 }
 
-/*返回该操作符的栈外优先级
-@author 高洪森*/
+//返回该操作符的栈外优先级
+//@author 高洪森
 int osp(const char op){
     switch(op){
         case '+':

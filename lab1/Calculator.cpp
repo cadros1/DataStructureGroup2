@@ -6,7 +6,7 @@ using namespace std;
 
 int isp(const char op);
 int osp(const char op);
-void handleOperator(const char inputOp);
+bool handleOperator(const char inputOp);
 void handleExit();
 double RootOf(double num1, double num2); //返回num1开num2次方根
 double f(double x, double power, double num);//RootOf辅助函数
@@ -19,7 +19,7 @@ stack<char> opStack;
 
 //@author 高洪森
 int main(){
-    cout<<"\n===================欢迎使用计算器===================."<<endl;
+    cout<<"\n===================欢迎使用计算器==================="<<endl;
     cout<<"\n在下方输入您的表达式并以\"=\"结尾，程序将自动为此表达式求值"<<endl;
     cout<<"注意，仅接受整数与+ - * / % ^ &七种运算符，空格将被忽略，其余符号将导致错误"<<endl;
 
@@ -60,7 +60,11 @@ int main(){
                     //    }
 			        //}
 		        }
-                handleOperator(expression);
+                if(! handleOperator(expression)) {
+                    unknownExpressionException();
+                    break;
+                }
+                
             }
             else{
                 unknownExpressionException();
@@ -132,14 +136,14 @@ void getTwoNumbers(double *num1,double *num2){
 
 /*根据输入的操作符进行不同的处理
 @author 高洪森*/
-void handleOperator(const char inputOp){
+bool handleOperator(const char inputOp){
     if(opStack.empty()){
         opStack.push(inputOp);
-        return;
+        return true;
     }
     else if(isp(opStack.top())<osp(inputOp)){
         opStack.push(inputOp);
-        return;
+        return true;
     }
     else if(isp(opStack.top())>osp(inputOp)){
         double num1,num2;
@@ -174,32 +178,33 @@ void handleOperator(const char inputOp){
             case '&':
                 getTwoNumbers(&num1,&num2);
                 if ((num1 < 0) && (notNegRootCond(num2))){   
-                    unknownExpressionException();
-                    printf("1");
+                    return false;
                 }
                 numStack.push(RootOf(num1, num2));
                 break;
             case '(':
-                return;
+                break;
             case ')':
-                return;
+                break;
             case '=':
-                return;
+                break;
             default:
                 //这里随便写，因为前面已经校验过了，理论上不会执行到这里
                 break;
         }
         opStack.pop();
         handleOperator(inputOp);
+        return true;
     }
     else if(isp(opStack.top())==osp(inputOp)){
         opStack.pop();
-        return;
+        return true;
     }
+    return true;
 }
 
-//返回操作符的栈内优先级
-//@author 高洪森
+/*返回操作符的栈内优先级
+@author 高洪森*/
 int isp(const char op){
     switch(op){
         case '+':
@@ -227,8 +232,8 @@ int isp(const char op){
     }
 }
 
-//返回该操作符的栈外优先级
-//@author 高洪森
+/*返回该操作符的栈外优先级
+@author 高洪森*/
 int osp(const char op){
     switch(op){
         case '+':

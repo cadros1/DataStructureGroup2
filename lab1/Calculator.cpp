@@ -19,7 +19,7 @@ stack<char> opStack;
 
 //@author 高洪森
 int main(){
-    cout<<"\n===================欢迎使用计算器==================="<<endl;
+    cout<<"\n===================欢迎使用计算器===================."<<endl;
     cout<<"\n在下方输入您的表达式并以\"=\"结尾，程序将自动为此表达式求值"<<endl;
     cout<<"注意，仅接受整数与+ - * / % ^ &七种运算符，空格将被忽略，其余符号将导致错误"<<endl;
 
@@ -198,8 +198,8 @@ void handleOperator(const char inputOp){
     }
 }
 
-/*返回操作符的栈内优先级
-@author 高洪森*/
+//返回操作符的栈内优先级
+//@author 高洪森
 int isp(const char op){
     switch(op){
         case '+':
@@ -227,8 +227,8 @@ int isp(const char op){
     }
 }
 
-/*返回该操作符的栈外优先级
-@author 高洪森*/
+//返回该操作符的栈外优先级
+//@author 高洪森
 int osp(const char op){
     switch(op){
         case '+':

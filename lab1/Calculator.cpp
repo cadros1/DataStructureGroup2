@@ -193,8 +193,8 @@ void handleOperator(const char inputOp){
     }
 }
 
-/*返回操作符的栈内优先级
-@author 高洪森*/
+//返回操作符的栈内优先级
+//@author 高洪森
 int isp(const char op){
     switch(op){
         case '+':

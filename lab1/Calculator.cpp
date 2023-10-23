@@ -11,6 +11,7 @@ void handleExit();
 double RootOf(double num1, double num2); //返回num1开num2次方根
 double f(double x, double power, double num);//RootOf辅助函数
 double df(double x, double power);//RootOf辅助函数
+bool notNegRootCond(double num);//返回num次方是否可开负数的根
 void unknownExpressionException();
 
 stack<double> numStack;
@@ -172,6 +173,10 @@ void handleOperator(const char inputOp){
                 break;
             case '&':
                 getTwoNumbers(&num1,&num2);
+                if ((num1 < 0) && (notNegRootCond(num2))){   
+                    unknownExpressionException();
+                    printf("1");
+                }
                 numStack.push(RootOf(num1, num2));
                 break;
             case '(':
@@ -254,8 +259,10 @@ int osp(const char op){
 //返回num1开num2次方根
 //作者：董庆宇
 double RootOf(double num1, double num2) {
-    double guess = 2.0;
+
     
+    
+    double guess = 2.0;
     while (abs(num1 - pow(guess, num2)) > 0.000000001)
     {
         guess = guess - f(guess, num2, num1) / df(guess, num2);
@@ -270,4 +277,27 @@ double f(double x, double power, double num) {
 
 double df(double x, double power) {
     return power * pow(x, (power-1));
+}
+
+bool notNegRootCond(double num) {
+    double numerator = 1;
+    int denominator = num;
+
+    while (numerator - (int)numerator > 0.000001)
+    {
+        numerator *= 10;
+        denominator *= 10;
+    }
+    while ((int)numerator % 2 == 0 && denominator % 2 == 0)
+    {
+        numerator /= 2;
+        denominator /= 2;
+    }
+    
+    if (denominator % 2 == 0)
+    {
+        return true;
+    }
+    return false;
+    
 }

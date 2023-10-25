@@ -157,7 +157,8 @@ bool handleOperator(const char inputOp){
                 numStack.pop();
                 numStack.push(-num1);
                 opStack.pop();
-                opStack.push('+');
+                //opStack.push('+');
+                handleOperator('+');
                 break;
             case '*':
                 getTwoNumbers(&num1,&num2);
@@ -183,11 +184,11 @@ bool handleOperator(const char inputOp){
                 numStack.push(RootOf(num1, num2));
                 break;
             case '(':
-                break;
+                return true;
             case ')':
-                break;
+                return true;
             case '=':
-                break;
+                return true;
             default:
                 //这里随便写，因为前面已经校验过了，理论上不会执行到这里
                 break;
@@ -200,7 +201,7 @@ bool handleOperator(const char inputOp){
         opStack.pop();
         return true;
     }
-    return true;
+    return false;
 }
 
 /*返回操作符的栈内优先级

@@ -149,6 +149,9 @@ bool handleOperator(const char inputOp){
         double num1,num2;
         switch(opStack.top()){
             case '+':
+                if(numStack.size()==1){
+                    numStack.push(0);
+                }
                 getTwoNumbers(&num1,&num2);
                 numStack.push(num1+num2);
                 break;
@@ -156,9 +159,11 @@ bool handleOperator(const char inputOp){
                 num1=numStack.top();
                 numStack.pop();
                 numStack.push(-num1);
-                opStack.pop();
-                opStack.push('+');
-                opStack.push('-');
+                if(numStack.size()!=1){
+                    opStack.pop();
+                    opStack.push('+');
+                    opStack.push('-');
+                }
                 break;
             case '*':
                 getTwoNumbers(&num1,&num2);

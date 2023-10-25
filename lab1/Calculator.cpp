@@ -158,6 +158,7 @@ bool handleOperator(const char inputOp){
                 numStack.push(-num1);
                 opStack.pop();
                 opStack.push('+');
+                opStack.push('-');
                 break;
             case '*':
                 getTwoNumbers(&num1,&num2);

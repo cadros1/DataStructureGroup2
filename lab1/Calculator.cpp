@@ -42,24 +42,35 @@ int main(){
 			        unknownExpressionException();
                     break;
                 }
-		        if(expression=='-'){
-                    //何旭瑞
-                    //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
-			        //if(lastPre <='0'|| lastPre>='9'){
-			        //	cin>>expression;
-                    //	if(expression>='0'&&expression<='9'){
-                    //		cin.putback(expression);
-                    //	 	double number;
-                    //	 	cin>>number;
-                    //		numStack.push(0-number);
-                    //        continue;
-           	        //	}
-			        //    else{
-                    //          unknownExpressionException();
-                    //          	break;
-                    //    }
-			        //}
-		        }
+		        //if(expression=='-'){
+                //    //何旭瑞
+                //    //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
+			    //    if(lastPre <='0'|| lastPre>='9'){
+			    //    	cin>>expression;
+                //    	if(expression>='0'&&expression<='9'){
+                //    		cin.putback(expression);
+                //    	 	double number;
+                //    	 	cin>>number;
+                //    		numStack.push(0-number);
+                //            continue;
+           	    //    	}
+			    //        else{
+                //              unknownExpressionException();
+                //              	break;
+                //        }
+			    //    }
+		        //}
+                if(expression=='-'){
+                    if(lastPre <'0'|| lastPre>'9'){
+                        if(cin.peek()>='0'&&cin.peek()<='9'){
+                            cin.putback(expression);
+                            double number;
+                            cin>>number;
+                            numStack.push(number);
+                            expression='1';
+                        }
+                    }
+                }
                 if(! handleOperator(expression)) {
                     unknownExpressionException();
                     break;
@@ -99,6 +110,8 @@ int main(){
     }
 }
 
+//当需要报错时在main函数中调用此函数，并后接break语句
+//@Author 高洪森
 void unknownExpressionException(){
     cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
     cin.ignore(1000,'\n');
@@ -108,8 +121,8 @@ void unknownExpressionException(){
     return;
 }
 
-/*当计算结束时处理是否退出
-@author 高洪森*/
+//当计算结束时处理是否退出
+//@author 高洪森
 void handleExit(){
     char answer;
     cin>>answer;
@@ -127,6 +140,8 @@ void handleExit(){
     }
 }
 
+//从数字栈中取出两个数字
+//@author 高洪森
 void getTwoNumbers(double *num1,double *num2){
     *num2=numStack.top();
     numStack.pop();
@@ -134,8 +149,8 @@ void getTwoNumbers(double *num1,double *num2){
     numStack.pop();
 }
 
-/*根据输入的操作符进行不同的处理
-@author 高洪森*/
+//根据输入的操作符进行不同的处理
+//@author 高洪森
 bool handleOperator(const char inputOp){
     if(opStack.empty()){
         opStack.push(inputOp);
@@ -147,18 +162,24 @@ bool handleOperator(const char inputOp){
     }
     else if(isp(opStack.top())>osp(inputOp)){
         double num1,num2;
-        switch(opStack.top()){
+        char opInStack=opStack.top();
+        opStack.pop();
+        switch(opInStack){
             case '+':
                 getTwoNumbers(&num1,&num2);
                 numStack.push(num1+num2);
                 break;
             case '-':
-                num1=numStack.top();
-                numStack.pop();
-                numStack.push(-num1);
-                opStack.pop();
+                //num1=numStack.top();
+                //numStack.pop();
+                //if(numStack.empty()){
+                //    numStack.push(0);
+                //}
+                //numStack.push(-num1);
                 //opStack.push('+');
-                handleOperator('+');
+                getTwoNumbers(&num1,&num2);
+                numStack.push(num1-num2);
+
                 break;
             case '*':
                 getTwoNumbers(&num1,&num2);
@@ -193,7 +214,6 @@ bool handleOperator(const char inputOp){
                 //这里随便写，因为前面已经校验过了，理论上不会执行到这里
                 break;
         }
-        opStack.pop();
         handleOperator(inputOp);
         return true;
     }
@@ -204,8 +224,8 @@ bool handleOperator(const char inputOp){
     return false;
 }
 
-/*返回操作符的栈内优先级
-@author 高洪森*/
+//返回操作符的栈内优先级
+//@author 高洪森
 int isp(const char op){
     switch(op){
         case '+':
@@ -233,8 +253,8 @@ int isp(const char op){
     }
 }
 
-/*返回该操作符的栈外优先级
-@author 高洪森*/
+//返回该操作符的栈外优先级
+//@author 高洪森
 int osp(const char op){
     switch(op){
         case '+':

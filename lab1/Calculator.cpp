@@ -6,13 +6,14 @@ using namespace std;
 
 int isp(const char op);
 int osp(const char op);
-bool handleOperator(const char inputOp);
+bool handleOperator(const char inputOp, bool isNum);
 void handleExit();
 double RootOf(double num1, double num2); //返回num1开num2次方根
 double f(double x, double power, double num);//RootOf辅助函数
 double df(double x, double power);//RootOf辅助函数
 bool notNegRootCond(double num);//返回num次方是否可开负数的根
 void unknownExpressionException();
+void judge_last_isNum(const char lastpre, bool& isNum);//判断上一字符是否为数字
 
 stack<double> numStack;
 stack<char> opStack;
@@ -27,13 +28,16 @@ int main(){
         cout<<"\n请输入您的表达式：";
 	    char expression='a';
         char lastPre=expression;
+        bool isNum = false;
         for(;;lastPre=expression){
+            //judge_last_isNum(lastPre, isNum);
             cin>>expression;
             if(expression>='0'&&expression<='9'){
                 cin.putback(expression);
                 double number;
                 cin>>number;
                 numStack.push(number);
+                
             }
             else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'
                     ||expression=='%'||expression=='^'||expression=='&'||expression=='='
@@ -60,18 +64,27 @@ int main(){
                 //        }
 			    //    }
 		        //}
-                if(expression=='-'){
+ /*               if(expression=='-'){
                     if(lastPre <'0'|| lastPre>'9'){
                         if(cin.peek()>='0'&&cin.peek()<='9'){
                             cin.putback(expression);
                             double number;
                             cin>>number;
                             numStack.push(number);
-                            expression='1';
+                        //    expression='1';//temp//////////////////////
                         }
                     }
+                }           *//////原本
+                if(expression=='-') {
+                    judge_last_isNum(lastPre, isNum);
+                    if (isNum == false && lastPre != ')')
+                    {
+                        numStack.push(0);
+                    }
                 }
-                if(! handleOperator(expression)) {
+                
+                
+                if(! handleOperator(expression, isNum)) {
                     unknownExpressionException();
                     break;
                 }
@@ -83,6 +96,8 @@ int main(){
             }
             if(expression=='='){
                 if(cin.peek()!='\n'){
+                    cout<<cin.peek();
+                    printf("///");
                     unknownExpressionException();
                     break;
                 }
@@ -151,7 +166,7 @@ void getTwoNumbers(double *num1,double *num2){
 
 //根据输入的操作符进行不同的处理
 //@author 高洪森
-bool handleOperator(const char inputOp){
+bool handleOperator(const char inputOp, bool isNum){
     if(opStack.empty()){
         opStack.push(inputOp);
         return true;
@@ -177,8 +192,26 @@ bool handleOperator(const char inputOp){
                 //}
                 //numStack.push(-num1);
                 //opStack.push('+');
+
+
                 getTwoNumbers(&num1,&num2);
                 numStack.push(num1-num2);
+
+                // double tem;
+                // tem = numStack.top();
+                // tem = -tem;
+                // numStack.pop();
+                // numStack.push(tem);
+                // if (isNum == true)
+                // {   
+                //    getTwoNumbers(&num1,&num2);
+                //     numStack.push(num1 + num2);
+                // }
+                // else {
+                //     numStack.push(0);
+                // }
+                
+                
 
                 break;
             case '*':
@@ -214,7 +247,7 @@ bool handleOperator(const char inputOp){
                 //这里随便写，因为前面已经校验过了，理论上不会执行到这里
                 break;
         }
-        handleOperator(inputOp);
+        handleOperator(inputOp, isNum);
         return true;
     }
     else if(isp(opStack.top())==osp(inputOp)){
@@ -285,8 +318,6 @@ int osp(const char op){
 //返回num1开num2次方根
 //作者：董庆宇
 double RootOf(double num1, double num2) {
-
-    
     
     double guess = 2.0;
     while (abs(num1 - pow(guess, num2)) > 0.000000001)
@@ -325,5 +356,15 @@ bool notNegRootCond(double num) {
         return true;
     }
     return false;
+    
+}
+
+void judge_last_isNum(const char lastpre, bool& isNum) {
+    if(lastpre>='0' && lastpre<='9') {
+        isNum = true;
+    }
+    else {
+        isNum = false;
+    }
     
 }

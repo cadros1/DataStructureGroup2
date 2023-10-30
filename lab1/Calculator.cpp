@@ -125,8 +125,10 @@ int main(){
     }
 }
 
-//当需要报错时在main函数中调用此函数，并后接break语句
-//@Author 高洪森
+/**
+ * @brief 当需要报错的时候调用此函数，询问用户是否重新输入
+ * @author 高洪森
+ */
 void unknownExpressionException(){
     cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
     cin.ignore(1000,'\n');
@@ -136,8 +138,10 @@ void unknownExpressionException(){
     return;
 }
 
-//当计算结束时处理是否退出
-//@author 高洪森
+/**
+ * @brief 处理需要退出的场景
+ * @author 高洪森
+ */
 void handleExit(){
     char answer;
     cin>>answer;
@@ -155,8 +159,10 @@ void handleExit(){
     }
 }
 
-//从数字栈中取出两个数字
-//@author 高洪森
+/**
+ * @brief 从数字栈中取出两个数字
+ * @author 高洪森
+ */
 void getTwoNumbers(double *num1,double *num2){
     *num2=numStack.top();
     numStack.pop();
@@ -164,9 +170,17 @@ void getTwoNumbers(double *num1,double *num2){
     numStack.pop();
 }
 
+<<<<<<< HEAD
 //根据输入的操作符进行不同的处理
 //@author 高洪森
 bool handleOperator(const char inputOp, bool isNum){
+=======
+/**
+ * @brief 根据输入的操作符进行不同的处理
+ * @author 高洪森
+ */
+bool handleOperator(const char inputOp){
+>>>>>>> 934ae1fa5361b668ba0b5c0f856e95560b84f3ca
     if(opStack.empty()){
         opStack.push(inputOp);
         return true;

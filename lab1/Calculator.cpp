@@ -46,35 +46,6 @@ int main(){
 			        unknownExpressionException();
                     break;
                 }
-		        //if(expression=='-'){
-                //    //何旭瑞
-                //    //判断此'-'表示减法还是负数并作出相应处理，如果做减法，就无事发生，退出if；如果表示负数，则像上面一样再读一个数入栈
-			    //    if(lastPre <='0'|| lastPre>='9'){
-			    //    	cin>>expression;
-                //    	if(expression>='0'&&expression<='9'){
-                //    		cin.putback(expression);
-                //    	 	double number;
-                //    	 	cin>>number;
-                //    		numStack.push(0-number);
-                //            continue;
-           	    //    	}
-			    //        else{
-                //              unknownExpressionException();
-                //              	break;
-                //        }
-			    //    }
-		        //}
- /*               if(expression=='-'){
-                    if(lastPre <'0'|| lastPre>'9'){
-                        if(cin.peek()>='0'&&cin.peek()<='9'){
-                            cin.putback(expression);
-                            double number;
-                            cin>>number;
-                            numStack.push(number);
-                        //    expression='1';//temp//////////////////////
-                        }
-                    }
-                }           *//////原本
                 if(expression=='-') {
                     judge_last_isNum(lastPre, isNum);
                     if (isNum == false && lastPre != ')')
@@ -82,8 +53,6 @@ int main(){
                         numStack.push(0);
                     }
                 }
-                
-                
                 if(! handleOperator(expression, isNum)) {
                     unknownExpressionException();
                     break;
@@ -97,7 +66,6 @@ int main(){
             if(expression=='='){
                 if(cin.peek()!='\n'){
                     cout<<cin.peek();
-                    printf("///");
                     unknownExpressionException();
                     break;
                 }
@@ -170,17 +138,11 @@ void getTwoNumbers(double *num1,double *num2){
     numStack.pop();
 }
 
-<<<<<<< HEAD
-//根据输入的操作符进行不同的处理
-//@author 高洪森
-bool handleOperator(const char inputOp, bool isNum){
-=======
 /**
  * @brief 根据输入的操作符进行不同的处理
  * @author 高洪森
  */
-bool handleOperator(const char inputOp){
->>>>>>> 934ae1fa5361b668ba0b5c0f856e95560b84f3ca
+bool handleOperator(const char inputOp, bool isNum){
     if(opStack.empty()){
         opStack.push(inputOp);
         return true;
@@ -199,34 +161,8 @@ bool handleOperator(const char inputOp){
                 numStack.push(num1+num2);
                 break;
             case '-':
-                //num1=numStack.top();
-                //numStack.pop();
-                //if(numStack.empty()){
-                //    numStack.push(0);
-                //}
-                //numStack.push(-num1);
-                //opStack.push('+');
-
-
                 getTwoNumbers(&num1,&num2);
                 numStack.push(num1-num2);
-
-                // double tem;
-                // tem = numStack.top();
-                // tem = -tem;
-                // numStack.pop();
-                // numStack.push(tem);
-                // if (isNum == true)
-                // {   
-                //    getTwoNumbers(&num1,&num2);
-                //     numStack.push(num1 + num2);
-                // }
-                // else {
-                //     numStack.push(0);
-                // }
-                
-                
-
                 break;
             case '*':
                 getTwoNumbers(&num1,&num2);

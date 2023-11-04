@@ -270,9 +270,15 @@ int osp(const char op){
 double RootOf(double num1, double num2) {
     
     double guess = 2.0;
-    while (abs(num1 - pow(guess, num2)) > 0.000000001)
+    while (fabs(num1 - pow(guess, num2)) > 0.000000001)
     {
+        double pre = guess;
         guess = guess - f(guess, num2, num1) / df(guess, num2);
+        if (pre == guess)
+        {
+            return guess;
+        }
+        
     }
     
     return guess;

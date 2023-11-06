@@ -52,6 +52,12 @@ int main(){
                     {
                         numStack.push(0);
                     }
+                    if (isNum == false)
+                    {
+                        unknownExpressionException();
+                        break;
+                    }
+                    
                 }
                 if(! handleOperator(expression, isNum)) {
                     unknownExpressionException();

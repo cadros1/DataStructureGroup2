@@ -52,7 +52,7 @@ int main(){
                     {
                         numStack.push(0);
                     }
-                    if (isNum == false)
+                    if (isNum == false && !(lastPre == 'a' || lastPre == '('))
                     {
                         unknownExpressionException();
                         break;

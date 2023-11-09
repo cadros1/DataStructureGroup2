@@ -2,23 +2,14 @@
 #include<stack>
 #include<math.h>
 #include<cmath>
-using namespace std;
 
-int isp(const char op);
-int osp(const char op);
-bool handleOperator(const char inputOp, bool isNum);
-void handleExit();
-double RootOf(double num1, double num2); //返回num1开num2次方根
-double f(double x, double power, double num);//RootOf辅助函数
-double df(double x, double power);//RootOf辅助函数
-bool notNegRootCond(double num);//返回num次方是否可开负数的根
-void unknownExpressionException();
-void judge_last_isNum(const char lastpre, bool& isNum);//判断上一字符是否为数字
+#include"Calculator.h"
+
+using namespace std;
 
 stack<double> numStack;
 stack<char> opStack;
 
-//@author 高洪森
 int main(){
     cout<<"\n===================欢迎使用计算器==================="<<endl;
     cout<<"\n在下方输入您的表达式并以\"=\"结尾，程序将自动为此表达式求值"<<endl;
@@ -37,33 +28,29 @@ int main(){
                 double number;
                 cin>>number;
                 numStack.push(number);
-                
             }
             else if(expression=='+'||expression=='-'||expression=='*'||expression=='/'
                     ||expression=='%'||expression=='^'||expression=='&'||expression=='='
                     ||expression=='('||expression==')'){
-		        if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){  //何旭瑞
+                //何旭瑞
+		        if((lastPre <'0'|| lastPre>'9')&&expression!='-'&&expression!='('&&lastPre!=')'){
 			        unknownExpressionException();
                     break;
                 }
                 if(expression=='-') {
                     judge_last_isNum(lastPre, isNum);
-                    if (isNum == false && lastPre != ')')
-                    {
+                    if (isNum == false && lastPre != ')'){
                         numStack.push(0);
                     }
-                    if (isNum == false && !(lastPre == 'a' || lastPre == '(') && lastPre != ')')
-                    {
+                    if (isNum == false && !(lastPre == 'a' || lastPre == '(') && lastPre != ')'){
                         unknownExpressionException();
                         break;
                     }
-                    
                 }
                 if(! handleOperator(expression, isNum)) {
                     unknownExpressionException();
                     break;
                 }
-                
             }
             else{
                 unknownExpressionException();
@@ -81,7 +68,6 @@ int main(){
                 }
                 cout<<"计算结果为："<<numStack.top()<<endl;
                 cout<<"\n您希望继续使用计算器吗？(Y/N)： ";
-                cin.ignore(1000,'\n');
                 numStack=stack<double>();
                 opStack=stack<char>();
                 handleExit();
@@ -89,7 +75,6 @@ int main(){
             }
             if(cin.peek()=='\n'){
                 cout<<"\n未检查到结束符\'=\'，计算中止。您希望重新开始输入吗？(Y/N)：";
-                cin.ignore(1000,'\n');
                 numStack=stack<double>();
                 opStack=stack<char>();
                 handleExit();
@@ -105,7 +90,6 @@ int main(){
  */
 void unknownExpressionException(){
     cout<<"\n检查到不正确表达式，计算中止。您希望重新开始输入吗？(Y/N)： ";
-    cin.ignore(1000,'\n');
     numStack=stack<double>();
     opStack=stack<char>();
     handleExit();
@@ -113,11 +97,13 @@ void unknownExpressionException(){
 }
 
 /**
- * @brief 处理需要退出的场景
+ * @brief 结束一次计算时，调用方首先应打印出结束语句并询问用户是否再次计算，然后再调用此函数
  * @author 高洪森
  */
 void handleExit(){
     char answer;
+
+    cin.ignore(1000,'\n');
     cin>>answer;
     cin.ignore(1000,'\n');
     if(answer=='Y'||answer=='y'){
@@ -134,7 +120,9 @@ void handleExit(){
 }
 
 /**
- * @brief 从数字栈中取出两个数字
+ * @brief 从栈中取出两个数，分别赋值给num1和num2
+ * @param num1 用于接收第一个数的指针
+ * @param num2 用于接收第二个数的指针
  * @author 高洪森
  */
 void getTwoNumbers(double *num1,double *num2){
@@ -145,7 +133,7 @@ void getTwoNumbers(double *num1,double *num2){
 }
 
 /**
- * @brief 根据输入的操作符进行不同的处理
+ * @brief 处理读取到的运算符
  * @author 高洪森
  */
 bool handleOperator(const char inputOp, bool isNum){
@@ -200,7 +188,7 @@ bool handleOperator(const char inputOp, bool isNum){
             case '=':
                 return true;
             default:
-                //这里随便写，因为前面已经校验过了，理论上不会执行到这里
+                //这里无所谓，因为前面已经校验过了，理论上不会执行到这里
                 break;
         }
         handleOperator(inputOp, isNum);
@@ -213,8 +201,11 @@ bool handleOperator(const char inputOp, bool isNum){
     return false;
 }
 
-//返回操作符的栈内优先级
-//@author 高洪森
+/**
+ * @brief 返回给定运算符的栈内优先级
+ * @param op 运算符
+ * @author 高洪森
+*/
 int isp(const char op){
     switch(op){
         case '+':
@@ -242,8 +233,11 @@ int isp(const char op){
     }
 }
 
-//返回该操作符的栈外优先级
-//@author 高洪森
+/**
+ * @brief 返回给定运算符的栈外优先级
+ * @param op 运算符
+ * @author 高洪森
+ */
 int osp(const char op){
     switch(op){
         case '+':
@@ -271,56 +265,70 @@ int osp(const char op){
     }
 }
 
-//返回num1开num2次方根
-//作者：董庆宇
+/**
+ * @brief 返回num1开num2次方根
+ * @param num1 底数
+ * @param num2 指数
+ * @author 董庆宇
+ */
 double RootOf(double num1, double num2) {
-    
     double guess = 2.0;
-    while (fabs(num1 - pow(guess, num2)) > 0.000000001)
-    {
+
+    while (fabs(num1 - pow(guess, num2)) > 0.000000001){
         double pre = guess;
         guess = guess - f(guess, num2, num1) / df(guess, num2);
-        if (pre == guess)
-        {
+        if (pre == guess){
             return guess;
         }
         
     }
-    
+
     return guess;
 } 
 
+/**
+ * @brief RootOf辅助函数
+ * @author 董庆宇
+ */
 double f(double x, double power, double num) {
     return pow(x, power) - num;
 }
 
+/**
+ * @brief RootOf辅助函数
+ * @author 董庆宇
+ */
 double df(double x, double power) {
     return power * pow(x, (power-1));
 }
 
+/**
+ * @brief 返回num次方是否可开负数的根
+ * @author 董庆宇
+ */
 bool notNegRootCond(double num) {
     double numerator = 1;
     int denominator = num;
 
-    while (numerator - (int)numerator > 0.000001)
-    {
+    while (numerator - (int)numerator > 0.000001){
         numerator *= 10;
         denominator *= 10;
     }
-    while ((int)numerator % 2 == 0 && denominator % 2 == 0)
-    {
+    while ((int)numerator % 2 == 0 && denominator % 2 == 0){
         numerator /= 2;
         denominator /= 2;
     }
-    
-    if (denominator % 2 == 0)
-    {
+
+    if (denominator % 2 == 0){
         return true;
     }
     return false;
-    
 }
 
+/**
+ * @brief 判断上一字符是否为数字
+ * @author 高洪森
+*/
 void judge_last_isNum(const char lastpre, bool& isNum) {
     if(lastpre>='0' && lastpre<='9') {
         isNum = true;
@@ -328,5 +336,4 @@ void judge_last_isNum(const char lastpre, bool& isNum) {
     else {
         isNum = false;
     }
-    
 }

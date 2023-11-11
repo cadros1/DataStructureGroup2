@@ -13,7 +13,8 @@ int main(){
         std::cout<<"1.统计文件中各字符频率并输出\n";
         std::cout<<"2.将原始文本编码并输出\n";
         std::cout<<"3.将编码后的文本解码并输出\n";
-        std::cout<<"4.退出\n";
+        std::cout<<"4.退出\n\n";
+        std::cout<<"请输入选项代码: ";
         int choice;
         std::cin>>choice;
         switch(choice){
@@ -24,10 +25,13 @@ int main(){
                 break;
             case 4:
                 exit(0);
+                break;
             default:
-                std::cout<<"无对应选项，请重新输入: ";
+                std::cout<<"选项错误！！！";
+                exit(0);
                 break;
         }
+        std::cout<<"\n\n";
     }
 }
 

@@ -4,8 +4,8 @@
 #include "HaffmanTree.h"
 #include <vector>
 
-void calculateWeightFromFile(std::vector<HaffmanTree::Node>* frequenceList,std::string fileName);
+void calculateWeightFromFile(HaffmanTree* tree,std::string fileName);
 std::string askForFileName();
-void outputFrequenceList(std::vector<HaffmanTree::Node>* frequenceList);
+void outputFrequenceList(HaffmanTree* tree);
 
 #endif

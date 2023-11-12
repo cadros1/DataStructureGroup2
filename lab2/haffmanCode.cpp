@@ -20,8 +20,9 @@ int main(){
         switch(choice){
             case 1:
                 tree=new HaffmanTree();
-                calculateWeightFromFile(&(*tree).frequenceList,askForFileName());
-                outputFrequenceList(&(*tree).frequenceList);
+                calculateWeightFromFile(tree,askForFileName());
+                tree->sortList(0,tree->frequenceList.size()-1);
+                outputFrequenceList(tree);
                 break;
             case 4:
                 exit(0);
@@ -35,21 +36,24 @@ int main(){
     }
 }
 
-void calculateWeightFromFile(std::vector<HaffmanTree::Node>* frequenceList,std::string fileName){
+void calculateWeightFromFile(HaffmanTree* tree,std::string fileName){
     std::ifstream file(fileName,std::ios::in);
     char c;
     while(file.peek()!=EOF){
         file.get(c);
+        if(c=='\n'||c==' '){
+            continue;
+        }
         bool isExist=false;
-        for(int i=0;i<(*frequenceList).size();i++){
-            if((*frequenceList)[i].data==c){
-                (*frequenceList)[i].weight++;
+        for(int i=0;i<tree->frequenceList.size();i++){
+            if(tree->frequenceList[i].data==c){
+                tree->frequenceList[i].weight++;
                 isExist=true;
                 break;
             }
         }
         if(!isExist){
-            (*frequenceList).push_back(HaffmanTree::Node{c,1,nullptr,nullptr});
+            tree->frequenceList.push_back(HaffmanTree::Node{c,1,nullptr,nullptr});
         }
     }
     file.close();
@@ -63,9 +67,9 @@ std::string askForFileName(){
     return fileName;
 }
 
-void outputFrequenceList(std::vector<HaffmanTree::Node>* frequenceList){
+void outputFrequenceList(HaffmanTree* tree){
     std::cout<<"字符\t频率\n";
-    for(auto n:*frequenceList){
+    for(auto n:tree->frequenceList){
         std::cout<<n.data<<"\t"<<n.weight<<"\n";
     }
 }

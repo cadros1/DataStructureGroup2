@@ -13,6 +13,8 @@ class HaffmanTree{
     }Node;
     std::vector<HaffmanTree::Node> frequenceList;
 
+    void sortList(int left,int right);
+
     private:
     Node* root;
 };

@@ -58,7 +58,6 @@ int main(){
             }
             if(expression=='='){
                 if(cin.peek()!='\n'){
-                    cout<<cin.peek();
                     unknownExpressionException();
                     break;
                 }

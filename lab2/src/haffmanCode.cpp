@@ -1,11 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <windows.h>
 
 #include "haffmanCode.h"
 #include "HaffmanTree.h"
 
 int main(){
+    SetConsoleOutputCP(CP_UTF8);
+
     HaffmanTree* tree;
 
     while(true){
@@ -38,6 +41,11 @@ int main(){
 
 void calculateWeightFromFile(HaffmanTree* tree,std::string fileName){
     std::ifstream file(fileName,std::ios::in);
+
+    if(!file.is_open()){
+        std::cout<<"未找到指定文件";
+        exit(0);
+    }
     char c;
     while(file.peek()!=EOF){
         file.get(c);

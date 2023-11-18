@@ -3,6 +3,7 @@
 
 #include "HaffmanTree.h"
 #include <vector>
+#include <string>
 
 void calculateWeightFromFile(HaffmanTree* tree,std::string fileName);
 std::string askForFileName();

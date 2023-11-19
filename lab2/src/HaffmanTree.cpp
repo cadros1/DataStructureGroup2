@@ -1,5 +1,11 @@
 #include "HaffmanTree.h"
 
+/**
+ * @brief 对频率列表按权重从小到大进行排序
+ * @param left 排序起始位置
+ * @param right 排序结束位置
+ * @author 高洪森
+ */
 void HaffmanTree::sortList(int left,int right){
     if(left>=right){
         return;

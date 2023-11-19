@@ -39,6 +39,12 @@ int main(){
     }
 }
 
+/**
+ * @brief 从文件中读取字符并统计频率
+ * @param tree Haffmantree变量的指针
+ * @param fileName 文件名
+ * @author 高洪森
+ */
 void calculateWeightFromFile(HaffmanTree* tree,std::string fileName){
     std::ifstream file(fileName,std::ios::in);
 
@@ -67,6 +73,10 @@ void calculateWeightFromFile(HaffmanTree* tree,std::string fileName){
     file.close();
 }
 
+/**
+ * @brief 要求用户输入文件名并读取
+ * @author 高洪森
+ */
 std::string askForFileName(){
     std::string fileName;
     std::cin.ignore(1000,'\n');
@@ -75,6 +85,11 @@ std::string askForFileName(){
     return fileName;
 }
 
+/**
+ * @brief 输出字符频率列表
+ * @param tree Haffmantree变量的指针
+ * @author 高洪森
+ */
 void outputFrequenceList(HaffmanTree* tree){
     std::cout<<"字符\t频率\n";
     for(auto n:tree->frequenceList){

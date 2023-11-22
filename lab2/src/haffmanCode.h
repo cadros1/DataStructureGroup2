@@ -4,9 +4,11 @@
 #include "HaffmanTree.h"
 #include <vector>
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <windows.h>
+#include <exception>
 
-void calculateWeightFromFile(HaffmanTree* tree,std::string fileName);
 std::string askForFileName();
-void outputFrequenceList(HaffmanTree* tree);
 
 #endif

@@ -13,13 +13,13 @@ int main(){
         std::cout<<"3.退出\n\n";
         std::cout<<"请输入选项编号: ";
         int choice;
-        std::string filename;
+        std::fstream file;
         std::cin>>choice;
         switch(choice){
             case 1:
-                filename=askForFileName();
+                file.open(askForFileName(),std::ios::in|std::ios::out|std::ios::binary);
                 try{
-                    tree=new HaffmanTree(filename);
+                    tree=new HaffmanTree(&file,1);
                     std::cout<<"编码成功！\n1.输出编码数据至控制台\t2.输出编码数据至文件\t3.将文件编码后输出并获取压缩率\n键入选项编号以继续：";
                     std::cin.ignore(1000,'\n');
                     std::cin>>choice;
@@ -29,8 +29,8 @@ int main(){
                             tree->outputNodeListToConsole();
                             break;
                         case 2:
-                            //TODO 该函数未实现
-                            tree->outputNodeListToFile(filename);
+                            //TODO
+                            tree->outputNodeListToFile();   //请实现该函数！
                             break;
                         case 3:
                             //TODO
@@ -42,8 +42,10 @@ int main(){
                             break;
                     }
                     tree->free();
-                }catch(std::exception e){
+                }catch(const std::exception& e){
                     std::cout<<e.what()<<"\n";
+                }catch(const char* e){
+                    std::cout<<e<<"\n";
                 }
                 break;
             case 2:

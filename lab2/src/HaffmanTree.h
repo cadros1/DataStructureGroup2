@@ -21,20 +21,22 @@ class HaffmanTree{
         Node* rightSon;
     }Node;
     std::vector<HaffmanTree::Node*> nodeList;
-
-    HaffmanTree(std::string filename);
-    void calculateWeightFromFile(std::string fileName);
-    void sortList(int left,int right);
-    void constructHaffmantree();
+    HaffmanTree(std::fstream* file,int choice);
     void outputNodeListToConsole();
-    void outputNodeListToFile(std::string filename);
+    void outputNodeListToFile();
+
     void free();
     
 
     private:
     bool isSorted=false;
     Node* root;
-    
+
+    void encodeFile(std::fstream* file);
+    void decodeFile(std::fstream* file);
+    void calculateWeightFromFile(std::fstream* file);
+    void sortList(int left,int right);
+    void constructHaffmantree();
     void encodeFromRoot(Node* root,std::string code);
 };
 

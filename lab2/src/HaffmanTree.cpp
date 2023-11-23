@@ -1,9 +1,24 @@
 #include "HaffmanTree.h"
 
-HaffmanTree::HaffmanTree(std::string filename){
-    this->calculateWeightFromFile(filename);
-    this->constructHaffmantree();
-    this->encodeFromRoot(this->root,"");
+/**
+ * @brief HaffmanTree的构造函数
+ * @param file 文件指针，
+*/
+HaffmanTree::HaffmanTree(std::fstream* file,int choice){
+    switch(choice){
+        case 1:
+            this->calculateWeightFromFile(file);
+            this->constructHaffmantree();
+            this->encodeFromRoot(this->root,"");
+            break;
+        case 2:
+            //TODO
+            break;
+        default:
+            throw "无效选项！";
+            break;
+    }
+
 }
 
 /**
@@ -12,16 +27,13 @@ HaffmanTree::HaffmanTree(std::string filename){
  * @param fileName 文件名
  * @author 高洪森
  */
-void HaffmanTree::calculateWeightFromFile(std::string fileName){
-    std::ifstream file(fileName,std::ios::in);
-
-    if(!file.is_open()){
-        std::cout<<"未找到指定文件";
-        exit(0);
+void HaffmanTree::calculateWeightFromFile(std::fstream* file){
+    if(!file->is_open()){
+        throw "文件打开失败！可能是路径错误或文件不存在。";
     }
     char c;
-    while(file.peek()!=EOF){
-        file.get(c);
+    while(file->peek()!=EOF){
+        file->get(c);
         if(c=='\n'||c==' '){
             continue;
         }
@@ -37,7 +49,6 @@ void HaffmanTree::calculateWeightFromFile(std::string fileName){
             this->nodeList.push_back(new HaffmanTree::Node{c,1,"",nullptr,nullptr});
         }
     }
-    file.close();
 }
 
 /**
@@ -108,7 +119,12 @@ void HaffmanTree::outputNodeListToConsole(){
     }
 }
 
-void HaffmanTree::outputNodeListToFile(std::string filename){
+/**
+ * @brief 输出字符统计数据至文件
+ *       数据包括字符、频率及其哈夫曼编码，按频率从小到大排列
+ * @author 
+ */
+void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
     //文本要体现编码自哪个文件
     //TODO
@@ -183,4 +199,22 @@ void HaffmanTree::free(){
         delete(this->nodeList[i]);
     }
     delete(this);
+}
+
+/**
+ * @brief 对文件按获得的编码集进行编码
+ * @author
+*/
+void HaffmanTree::encodeFile(std::fstream* file){
+    //TODO
+
+}
+
+/**
+ * @brief 对文件进行解码
+ * @author
+*/
+void HaffmanTree::decodeFile(std::fstream* file){
+    //TODO
+    
 }

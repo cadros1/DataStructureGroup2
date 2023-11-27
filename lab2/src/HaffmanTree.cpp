@@ -1,5 +1,11 @@
 #include "HaffmanTree.h"
 
+#include <fstream>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
 /**
  * @brief 对频率列表按权重从小到大进行快速排序
  * @param left 排序起始位置
@@ -53,4 +59,31 @@ void HaffmanTree::sortList(int left,int right){
     this->frequenceList[i]=baseNode;
     sortList(left,i-1);
     sortList(i+1,right);
+}
+
+void HaffmanTree() {
+
+}
+    
+
+void HaffmanTree(string file) {
+    char_map = new map();
+    buildTree(file);
+}
+
+void buildTree(string filename) {
+
+    ifstream file(filename, ios::in);
+        if(!file.is_open()){
+        cout<<"未找到指定文件";
+        exit(0);
+    }
+
+    char my_char;
+    while(file.peek()!=EOF){
+        file.get(my_char);
+        char_map.
+    }
+    file.close();
+
 }

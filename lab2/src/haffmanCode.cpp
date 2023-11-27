@@ -6,6 +6,8 @@
 #include "haffmanCode.h"
 #include "HaffmanTree.h"
 
+using namespace std;
+
 int main(){
     SetConsoleOutputCP(CP_UTF8);
 

@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+using namespace std;
+
 void calculateWeightFromFile(HaffmanTree* tree,std::string fileName);
 std::string askForFileName();
 void outputFrequenceList(HaffmanTree* tree);

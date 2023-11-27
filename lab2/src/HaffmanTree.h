@@ -2,8 +2,10 @@
 #define _HAFFMANTREE_H_
 
 #include <vector>
+#include <map>
 
 class HaffmanTree{
+    
     public:
     typedef struct Node{
         char data;
@@ -11,12 +13,19 @@ class HaffmanTree{
         Node* leftSon;
         Node* rightSon;
     }Node;
-    std::vector<HaffmanTree::Node> frequenceList;
-
-    void sortList(int left,int right);
 
     private:
     Node* root;
+    map<char, int> char_map;
+
+    public:
+    std::vector<HaffmanTree::Node> frequenceList;
+
+    HaffmanTree();
+    HaffmanTree(string file);
+    void sortList(int left,int right);
+    void buildTree(std::string filename);
+    
 };
 
 #endif

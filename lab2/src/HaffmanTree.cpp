@@ -33,6 +33,7 @@ void HaffmanTree::calculateWeightFromFile(std::fstream* file){
     if(!file->is_open()){
         throw "文件打开失败！可能是路径错误或文件不存在。";
     }
+    file->seekg(0);
     char c;
     while(file->peek()!=EOF){
         file->get(c);
@@ -209,25 +210,29 @@ void HaffmanTree::free(){
 */
 void HaffmanTree::encodeFile(std::fstream* file){
     //TODO
-    std::ofstream outfile("output.bin", std::ios::binary);
+    std::ofstream outfile("output.bin", std::ios::out | std::ios::binary);
+    file->seekg(0);
+    std::vector<std::vector<char>> my_buffer;
+    my_buffer.push_back( std::vector<char>(8));
+    int buffer_count = 0;
+    int bit_count = 0;
     char c;
     while (file->peek() != EOF)
     {
-        c = file->get();
-        if (outfile.is_open()) {
-            std::string c_huffcode = char_map[c];
-            for (int i = 0; i < c_huffcode.size(); i++)
-            {
-                bool bit;
-                if (c_huffcode.at(i) == 1) bit = true;
-                else bit = false;
-                outfile.write(reinterpret_cast<const char*>(&bit), sizeof(bool));
+        file->get(c);
+        std::string c_huffcode = char_map[c];
+        for (int i = 0; i < c_huffcode.size(); i++)
+        {
+            my_buffer.at(buffer_count)[bit_count] = c_huffcode.at(i);
+            if(bit_count == 7) {
+                buffer_count++;
+                my_buffer.push_back(std::vector<char>(8));
             }
-        } else {
-            std::cout << "无法打开文件" << std::endl;
+            bit_count = (bit_count + 1) % 8;
         }
     }
-    outfile.close();
+
+
     
 }
 

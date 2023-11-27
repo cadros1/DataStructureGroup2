@@ -11,6 +11,7 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             this->constructHaffmantree();
             this->encodeFromRoot(this->root,"");
             mapInit();
+            encodeFile(file);
             break;
         case 2:
             //TODO
@@ -204,10 +205,29 @@ void HaffmanTree::free(){
 
 /**
  * @brief 对文件按获得的编码集进行编码
- * @author
+ * @author 董庆宇
 */
 void HaffmanTree::encodeFile(std::fstream* file){
     //TODO
+    std::ofstream outfile("output.bin", std::ios::binary);
+    char c;
+    while (file->peek() != EOF)
+    {
+        c = file->get();
+        if (outfile.is_open()) {
+            std::string c_huffcode = char_map[c];
+            for (int i = 0; i < c_huffcode.size(); i++)
+            {
+                bool bit;
+                if (c_huffcode.at(i) == 1) bit = true;
+                else bit = false;
+                outfile.write(reinterpret_cast<const char*>(&bit), sizeof(bool));
+            }
+        } else {
+            std::cout << "无法打开文件" << std::endl;
+        }
+    }
+    outfile.close();
     
 }
 

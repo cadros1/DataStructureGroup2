@@ -10,6 +10,7 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             this->calculateWeightFromFile(file);
             this->constructHaffmantree();
             this->encodeFromRoot(this->root,"");
+            mapInit();
             break;
         case 2:
             //TODO
@@ -128,7 +129,7 @@ void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
     //文本要体现编码自哪个文件
     //TODO
-
+    
 
 }
 
@@ -207,7 +208,7 @@ void HaffmanTree::free(){
 */
 void HaffmanTree::encodeFile(std::fstream* file){
     //TODO
-
+    
 }
 
 /**
@@ -217,4 +218,17 @@ void HaffmanTree::encodeFile(std::fstream* file){
 void HaffmanTree::decodeFile(std::fstream* file){
     //TODO
     
+}
+
+/**
+ * @brief 初始化字符到编码对应的map
+ * @author 董庆宇
+*/
+void HaffmanTree::mapInit() {
+    for (int i = 0; i < nodeList.size(); i++)
+    {
+        char the_char = nodeList[i]->data;
+        std::string huff_code = nodeList[i]->code;
+        char_map[the_char] = huff_code;
+    }
 }

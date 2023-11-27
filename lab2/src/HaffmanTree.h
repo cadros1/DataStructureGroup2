@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <map>
 
 /**
  * @brief 哈夫曼树
@@ -31,6 +32,7 @@ class HaffmanTree{
     private:
     bool isSorted=false;
     Node* root;
+    std::map<char, std::string> char_map;
 
     void encodeFile(std::fstream* file);
     void decodeFile(std::fstream* file);
@@ -38,6 +40,7 @@ class HaffmanTree{
     void sortList(int left,int right);
     void constructHaffmantree();
     void encodeFromRoot(Node* root,std::string code);
+    void mapInit();
 };
 
 #endif

@@ -210,10 +210,9 @@ void HaffmanTree::free(){
 */
 void HaffmanTree::encodeFile(std::fstream* file){
     //TODO
-    std::ofstream outfile("output.bin", std::ios::out | std::ios::binary);
     file->seekg(0);
     std::vector<std::vector<char>> my_buffer;
-    my_buffer.push_back( std::vector<char>(8));
+    my_buffer.push_back(std::vector<char>(8));
     int buffer_count = 0;
     int bit_count = 0;
     char c;
@@ -231,9 +230,7 @@ void HaffmanTree::encodeFile(std::fstream* file){
             bit_count = (bit_count + 1) % 8;
         }
     }
-
-
-    
+    writeBitsToFile(my_buffer);
 }
 
 /**
@@ -256,4 +253,30 @@ void HaffmanTree::mapInit() {
         std::string huff_code = nodeList[i]->code;
         char_map[the_char] = huff_code;
     }
+}
+
+/**
+ * @brief 将bits写入文件，encodeFile的辅助函数
+ * @author 董庆宇
+*/
+void HaffmanTree::writeBitsToFile(std::vector<std::vector<char>> my_buffer) {
+    std::ofstream outfile("output.bin", std::ios::out | std::ios::binary);
+    if (! outfile.is_open())
+    {
+        throw "文件打开失败！可能是路径错误或文件不存在。";
+    }
+    else{
+        for(std::vector single_buff : my_buffer) {
+            unsigned char set_bit = 1, my_8bits = 0;
+            set_bit <<= 7;
+            for (int i = 0; i < 8; i++) {
+                if(single_buff[i] == '1') {
+                    my_8bits |= set_bit;
+                }
+                set_bit >>= 1;
+            }
+            outfile.write((char *)&my_8bits, 1);
+        }
+    }
+    outfile.close();
 }

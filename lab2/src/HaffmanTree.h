@@ -26,6 +26,7 @@ class HaffmanTree{
     void outputNodeListToConsole();
     void outputNodeListToFile();
 
+    void freeNode(HaffmanTree::Node* root);
     void free();
     
 

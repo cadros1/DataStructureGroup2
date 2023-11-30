@@ -193,16 +193,24 @@ void HaffmanTree::encodeFromRoot(Node* root,std::string code){
 }
 
 /**
- * @brief 释放哈夫曼树的内存
+ * @brief 通过后序遍历释放哈夫曼树的内存
  *        释放后不要调用任何成员！！！
- * @author 高洪森
+ * @author 杨峥
 */
-void HaffmanTree::free(){
-    for(int i=0;i<this->nodeList.size();i++){
-        delete(this->nodeList[i]);
+void HaffmanTree::freeNode(HaffmanTree::Node* root){
+    if(root == nullptr){
+        return;
     }
-    delete(this);
+    freeNode(root->leftSon);
+    freeNode(root->rightSon);
+    delete root;
 }
+
+void HaffmanTree::free(){
+    freeNode(this->root);
+    delete this;
+}
+
 
 /**
  * @brief 对文件按获得的编码集进行编码

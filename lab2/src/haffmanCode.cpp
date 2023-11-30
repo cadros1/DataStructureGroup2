@@ -1,5 +1,4 @@
 #include "haffmanCode.h"
-#include "HaffmanTree.h"
 
 int main(){
     SetConsoleOutputCP(CP_UTF8);

@@ -2,7 +2,8 @@
 
 /**
  * @brief HaffmanTree的构造函数
- * @param file 文件指针，
+ * @param file 指向一个fstream对象的指针
+ * @author 高洪森
 */
 HaffmanTree::HaffmanTree(std::fstream* file,int choice){
     switch(choice){
@@ -25,8 +26,7 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
 
 /**
  * @brief 从文件中读取字符并统计频率
- * @param tree Haffmantree变量的指针
- * @param fileName 文件名
+ * @param file 一个fstream对象的指针
  * @author 高洪森
  */
 void HaffmanTree::calculateWeightFromFile(std::fstream* file){

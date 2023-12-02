@@ -129,7 +129,6 @@ void HaffmanTree::outputNodeListToConsole(){
  */
 void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
-    //文本要体现编码自哪个文件
     //TODO
     
 
@@ -206,6 +205,10 @@ void HaffmanTree::freeNode(HaffmanTree::Node* root){
     delete root;
 }
 
+/**
+ * @brief 释放哈夫曼树的内存
+ * @author 杨峥
+ */
 void HaffmanTree::free(){
     freeNode(this->root);
     delete this;

@@ -6,13 +6,16 @@
  * @author 高洪森
 */
 HaffmanTree::HaffmanTree(std::fstream* file,int choice){
+    std::fstream f;
+    f.open("output.bin", std::ios::in|std::ios::binary);
     switch(choice){
         case 1:
             this->calculateWeightFromFile(file);
             this->constructHaffmantree();
             this->encodeFromRoot(this->root,"");
             mapInit();
-            encodeFile(file);
+            encodeFile(file); 
+            decodeFile(&f);
             break;
         case 2:
             //TODO
@@ -234,6 +237,7 @@ void HaffmanTree::encodeFile(std::fstream* file){
         for (int i = 0; i < c_huffcode.size(); i++)
         {
             my_buffer.at(buffer_count)[bit_count] = c_huffcode.at(i);
+            bits_writtern_in++;
             if(bit_count == 7) {
                 buffer_count++;
                 my_buffer.push_back(std::vector<char>(8));
@@ -246,11 +250,38 @@ void HaffmanTree::encodeFile(std::fstream* file){
 
 /**
  * @brief 对文件进行解码
- * @author
+ * @author 董庆宇
 */
 void HaffmanTree::decodeFile(std::fstream* file){
-    //TODO
-    
+    std::ofstream outfile("decode.txt", std::ios::out);
+    if (! outfile.is_open())
+    {
+        throw "文件打开失败！可能是路径错误或文件不存在。";
+    }
+    else{
+        std::string guess, read_in;
+        char c;
+        int total_words = 0;
+        while (!file->eof())
+        {
+            c = file->get();
+            read_in.append(get8BIts(c));
+            while(true)
+            {
+                guess.append(1, read_in.at(0));
+                read_in.erase(0, 1);
+                if (code_map.find(guess) != code_map.end())
+                {
+                    outfile.write((char*)&code_map[guess], 1);
+                    guess.clear();
+                    total_words++;
+//                    if (total_words == bits_writtern_in/8) return;
+                }
+                if(read_in.size() == 0) break;
+            }
+        }
+    }
+    outfile.close();
 }
 
 /**
@@ -263,6 +294,7 @@ void HaffmanTree::mapInit() {
         char the_char = nodeList[i]->data;
         std::string huff_code = nodeList[i]->code;
         char_map[the_char] = huff_code;
+        code_map[huff_code] = the_char;
     }
 }
 
@@ -290,4 +322,24 @@ void HaffmanTree::writeBitsToFile(std::vector<std::vector<char>> my_buffer) {
         }
     }
     outfile.close();
+}
+
+/**
+ * @brief 将一个char转为string类的8bits
+ * @author 董庆宇
+*/
+std::string HaffmanTree::get8BIts(char c) {
+    char result[8];
+    unsigned char compare_bit = 1;
+    compare_bit <<= 7;
+    for (size_t i = 0; i < 8; i++)
+    {
+        unsigned char before = c;
+        unsigned char after = c | compare_bit;
+        if (before == after) result[i] = '1';
+        else result[i] = '0';
+        compare_bit >>= 1;
+    }
+    std::string a(result);
+    return a;
 }

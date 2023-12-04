@@ -34,6 +34,8 @@ class HaffmanTree{
     bool isSorted=false;
     Node* root;
     std::map<char, std::string> char_map;
+    std::map<std::string, char> code_map;
+    int bits_writtern_in = 0;
 
     void encodeFile(std::fstream* file);
     void decodeFile(std::fstream* file);
@@ -43,6 +45,7 @@ class HaffmanTree{
     void encodeFromRoot(Node* root,std::string code);
     void mapInit();
     void writeBitsToFile(std::vector<std::vector<char>> my_buffer);
+    std::string get8BIts(char c);
 };
 
 #endif

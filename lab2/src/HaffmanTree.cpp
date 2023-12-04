@@ -261,7 +261,7 @@ void HaffmanTree::decodeFile(std::fstream* file){
     else{
         std::string guess, read_in;
         char c;
-        int total_words = 0;
+        int total_bits = 0;
         while (!file->eof())
         {
             c = file->get();
@@ -269,13 +269,13 @@ void HaffmanTree::decodeFile(std::fstream* file){
             while(true)
             {
                 guess.append(1, read_in.at(0));
+                total_bits++;
                 read_in.erase(0, 1);
                 if (code_map.find(guess) != code_map.end())
                 {
                     outfile.write((char*)&code_map[guess], 1);
                     guess.clear();
-                    total_words++;
-//                    if (total_words == bits_writtern_in/8) return;
+                    if (total_bits == bits_writtern_in) return;
                 }
                 if(read_in.size() == 0) break;
             }

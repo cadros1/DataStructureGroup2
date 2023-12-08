@@ -44,8 +44,10 @@ class HaffmanTree{
     void constructHaffmantree();
     void encodeFromRoot(Node* root,std::string code);
     void mapInit();
+    void mapInit(std::string file);
     void writeBitsToFile(std::vector<std::vector<char>> my_buffer);
     std::string get8BIts(char c);
+    void outputMapToFile();
 };
 
 #endif

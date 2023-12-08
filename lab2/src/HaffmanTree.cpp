@@ -16,6 +16,7 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             mapInit();
             encodeFile(file); 
             decodeFile(&f);
+            outputMapToFile();
             break;
         case 2:
             //TODO
@@ -135,6 +136,41 @@ void HaffmanTree::outputNodeListToFile(){
     //TODO
     
 
+}
+
+
+void HaffmanTree::outputMapToFile() {
+    std::ofstream outfile("map.txt", std::ios::out | std::ios::binary);
+    if (! outfile.is_open())
+    {
+        throw "文件打开失败！可能是路径错误或文件不存在。";
+    }
+    else{
+        for (const auto& kv : char_map) 
+        {
+            char my_char = kv.first;
+            if(my_char == '\n') {
+                outfile.write(kv.second.c_str(), kv.second.size());
+                outfile.write(" ", 1);
+                outfile.write("\\n", 2);
+                outfile.put('\n');
+            } 
+            else if(my_char == '\r') {
+                outfile.write(kv.second.c_str(), kv.second.size());
+                outfile.write(" ", 1);
+                outfile.write("\\r", 2);
+                outfile.put('\n');
+            }
+            else {
+                outfile.write(kv.second.c_str(), kv.second.size());
+                outfile.write(" ", 1);
+                outfile.write(&(my_char), 1);
+                outfile.put('\n');
+            }
+        }
+        
+    }
+    outfile.close();
 }
 
 /**
@@ -296,6 +332,11 @@ void HaffmanTree::mapInit() {
         char_map[the_char] = huff_code;
         code_map[huff_code] = the_char;
     }
+}
+
+void HaffmanTree::mapInit(std::string file) {
+    std::ifstream input_file("map.txt", std::ios::in);
+    
 }
 
 /**

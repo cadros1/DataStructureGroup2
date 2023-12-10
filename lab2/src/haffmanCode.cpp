@@ -49,7 +49,8 @@ int main(){
                 break;
             case 2:
                 //TODO
-
+                file.open(askForFileName(),std::ios::in|std::ios::out|std::ios::binary);
+                tree=new HaffmanTree(&file,2);
                 break;
             case 3:
                 exit(0);

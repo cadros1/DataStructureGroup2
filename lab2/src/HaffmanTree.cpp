@@ -17,9 +17,11 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             encodeFile(file); 
             decodeFile(&f);
             outputMapToFile();
+            
             break;
         case 2:
             //TODO
+            mapInit(file);
             break;
         default:
             throw "无效选项！";
@@ -146,23 +148,23 @@ void HaffmanTree::outputMapToFile() {
         throw "文件打开失败！可能是路径错误或文件不存在。";
     }
     else{
-        for (const auto& kv : char_map) 
+        for (const auto& kv : code_map) 
         {
-            char my_char = kv.first;
+            char my_char = kv.second;
             if(my_char == '\n') {
-                outfile.write(kv.second.c_str(), kv.second.size());
+                outfile.write(kv.first.c_str(), kv.first.size());
                 outfile.write(" ", 1);
                 outfile.write("\\n", 2);
                 outfile.put('\n');
             } 
             else if(my_char == '\r') {
-                outfile.write(kv.second.c_str(), kv.second.size());
+                outfile.write(kv.first.c_str(), kv.first.size());
                 outfile.write(" ", 1);
                 outfile.write("\\r", 2);
                 outfile.put('\n');
             }
             else {
-                outfile.write(kv.second.c_str(), kv.second.size());
+                outfile.write(kv.first.c_str(), kv.first.size());
                 outfile.write(" ", 1);
                 outfile.write(&(my_char), 1);
                 outfile.put('\n');
@@ -334,9 +336,38 @@ void HaffmanTree::mapInit() {
     }
 }
 
-void HaffmanTree::mapInit(std::string file) {
-    std::ifstream input_file("map.txt", std::ios::in);
-    
+void HaffmanTree::mapInit(std::fstream* input_file) {
+    //std::ifstream input_file("map.txt", std::ios::in);
+        if (! input_file->is_open()) {
+            throw "文件打开失败！可能是路径错误或文件不存在。";
+        }
+        else{
+            while (input_file->peek() != EOF)
+            {
+                std::string code;
+                char cha;
+                char c = input_file->get();
+                while (c != ' ')
+                {
+                    code += c;
+                    c = input_file->get();
+                }
+                c = input_file->get();
+                while (c != '\n')
+                {
+                    cha = c;
+                    if (cha == '\\')
+                    {
+                        c = input_file->get();
+                        if (c == 'n') cha = '\n';
+                        if (c == 'r') cha = '\r';
+                    }
+                }
+                std::cout<< code;
+                std::cout<< cha;
+            }
+        }
+    input_file->close();
 }
 
 /**

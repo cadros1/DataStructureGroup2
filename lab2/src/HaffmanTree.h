@@ -21,11 +21,12 @@ class HaffmanTree{
         Node* leftSon;
         Node* rightSon;
     }Node;
-    std::vector<HaffmanTree::Node*> nodeList;
     HaffmanTree(std::fstream* file,int choice);
     void outputNodeListToConsole();
     void outputNodeListToFile();
-
+    void encodeFile(std::fstream* file);
+    void outputMapToFile();
+    void decodeFile(std::fstream* file);
     void freeNode(HaffmanTree::Node* root);
     void free();
     
@@ -33,12 +34,11 @@ class HaffmanTree{
     private:
     bool isSorted=false;
     Node* root;
+    std::vector<HaffmanTree::Node*> nodeList;
     std::map<char, std::string> char_map;
     std::map<std::string, char> code_map;
     int bits_writtern_in = 0;
 
-    void encodeFile(std::fstream* file);
-    void decodeFile(std::fstream* file);
     void calculateWeightFromFile(std::fstream* file);
     void sortList(int left,int right);
     void constructHaffmantree();
@@ -47,7 +47,6 @@ class HaffmanTree{
     void mapInit(std::fstream* file);
     void writeBitsToFile(std::vector<std::vector<char>> my_buffer);
     std::string get8BIts(char c);
-    void outputMapToFile();
 };
 
 #endif

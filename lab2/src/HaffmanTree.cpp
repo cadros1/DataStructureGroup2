@@ -1,5 +1,4 @@
 #include "HaffmanTree.h"
-#include <fstream>
 /**
  * @brief HaffmanTree的构造函数
  * @param file 指向一个fstream对象的指针
@@ -14,14 +13,10 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             this->constructHaffmantree();
             this->encodeFromRoot(this->root,"");
             mapInit();
-            encodeFile(file); 
-            decodeFile(&f);
-            outputMapToFile();
-            
             break;
         case 2:
-            //TODO
             mapInit(file);
+            decodeFile(&f);
             break;
         default:
             throw "无效选项！";
@@ -137,7 +132,7 @@ void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
     std::ofstream outFile("../resources/haffmanCode.txt");
     if (!outFile) {
-        std::cerr << "无法打开文件\n";
+        throw "无法打开文件\n";
         return;
     }
     outFile << "字符\t频率\t编码\n";
@@ -268,7 +263,6 @@ void HaffmanTree::free(){
  * @author 董庆宇
 */
 void HaffmanTree::encodeFile(std::fstream* file){
-    //TODO
     file->seekg(0);
     std::vector<std::vector<char>> my_buffer;
     my_buffer.push_back(std::vector<char>(8));
@@ -298,7 +292,7 @@ void HaffmanTree::encodeFile(std::fstream* file){
  * @author 董庆宇
 */
 void HaffmanTree::decodeFile(std::fstream* file){
-    std::ofstream outfile("decode.txt", std::ios::out);
+    std::ofstream outfile("../decode.txt", std::ios::out);
     if (! outfile.is_open())
     {
         throw "文件打开失败！可能是路径错误或文件不存在。";
@@ -388,7 +382,7 @@ void HaffmanTree::writeBitsToFile(std::vector<std::vector<char>> my_buffer) {
         throw "文件打开失败！可能是路径错误或文件不存在。";
     }
     else{
-        for(std::vector single_buff : my_buffer) {
+        for(std::vector<char> single_buff : my_buffer) {
             unsigned char set_bit = 1, my_8bits = 0;
             set_bit <<= 7;
             for (int i = 0; i < 8; i++) {

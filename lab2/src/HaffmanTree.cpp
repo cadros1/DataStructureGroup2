@@ -125,7 +125,7 @@ void HaffmanTree::outputNodeListToConsole(){
             std::cout << "\\r" << '\t' << n->weight << '\t' << n->code << '\n';
         }
         else if(n->data == ' ') {
-            std::cout << "空格" << '\t' << n->weight << '\t' << n->code << '\n';
+            std::cout << "\\40" << '\t' << n->weight << '\t' << n->code << '\n';
         }
         else if(n->data == '\t') {
             std::cout << "\\t" << '\t' << n->weight << '\t' << n->code << '\n' ;
@@ -151,11 +151,11 @@ void HaffmanTree::outputNodeListToFile(){
         if(n->data == '\n') {
             outFile << "\\n" << '\t' << n->weight << '\t' << n->code << '\n';
         } 
-        else if(n->data == '\t') {
-            outFile << "\\t" << '\t' << n->weight << '\t' << n->code << '\n';
+        else if(n->data == '\r') {
+            outFile << "\\r" << '\t' << n->weight << '\t' << n->code << '\n';
         }
         else if(n->data == ' ') {
-            outFile << "\40" << '\t' << n->weight << '\t' << n->code << '\n';
+            outFile << "\\40" << '\t' << n->weight << '\t' << n->code << '\n';
         }
         else if(n->data == '\t') {
             outFile << "\\t" << '\t' << n->weight << '\t' << n->code << '\n' ;

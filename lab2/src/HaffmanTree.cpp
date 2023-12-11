@@ -13,6 +13,11 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             this->constructHaffmantree();
             this->encodeFromRoot(this->root,"");
             mapInit();
+<<<<<<< HEAD
+            encodeFile(file); 
+            outputMapToFile();
+=======
+>>>>>>> 420bcfde70117fef19d544330b6df3ea8c6562d6
             break;
         case 2:
             mapInit(file);
@@ -362,35 +367,35 @@ void HaffmanTree::mapInit() {
 
 void HaffmanTree::mapInit(std::fstream* input_file) {
     //std::ifstream input_file("map.txt", std::ios::in);
-        if (! input_file->is_open()) {
-            throw "文件打开失败！可能是路径错误或文件不存在。";
-        }
-        else{
-            while (input_file->peek() != EOF)
+    if (! input_file->is_open()) {
+        throw "文件打开失败！可能是路径错误或文件不存在。";
+    }
+    else{
+        while (input_file->peek() != EOF)
+        {
+            std::string code;
+            char cha;
+            char c = input_file->get();
+            while (c != ' ')
             {
-                std::string code;
-                char cha;
-                char c = input_file->get();
-                while (c != ' ')
-                {
-                    code += c;
-                    c = input_file->get();
-                }
+                code += c;
                 c = input_file->get();
-                while (c != '\n')
-                {
-                    cha = c;
-                    if (cha == '\\')
-                    {
-                        c = input_file->get();
-                        if (c == 'n') cha = '\n';
-                        if (c == 'r') cha = '\r';
-                    }
-                }
-                std::cout<< code;
-                std::cout<< cha;
             }
+            c = input_file->get();
+            if (c != '\n')
+            {
+                cha = c;
+                if (cha == '\\')
+                {
+                    c = input_file->get();
+                    if (c == 'n') cha = '\n';
+                    if (c == 'r') cha = '\r';
+                }
+            }
+            c = input_file->get();
+            code_map[code] = cha;
         }
+    }
     input_file->close();
 }
 

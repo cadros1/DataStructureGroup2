@@ -131,13 +131,21 @@ void HaffmanTree::outputNodeListToConsole(){
 /**
  * @brief 输出字符统计数据至文件
  *       数据包括字符、频率及其哈夫曼编码，按频率从小到大排列
- * @author 
+ * @author 何旭瑞
  */
 void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
     //TODO
-    
-
+    std::ofstream outFile("../resources/haffmanCode.txt");
+    if (!outFile) {
+        std::cerr << "无法打开文件\n";
+        return;
+    }
+    outFile << "字符\t频率\t编码\n";
+    for(auto n:this->nodeList){
+        outFile << n->data << '\t' << n->weight << '\t' << n->code << '\n';
+    }
+    outFile.close();
 }
 
 

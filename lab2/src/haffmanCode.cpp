@@ -28,8 +28,7 @@ int main(){
                             tree->outputNodeListToConsole();
                             break;
                         case 2:
-                            //TODO
-                            tree->outputNodeListToFile();   //请实现该函数！
+                            tree->outputNodeListToFile();
                             break;
                         case 3:
                             //TODO

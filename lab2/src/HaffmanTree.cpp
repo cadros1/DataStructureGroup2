@@ -13,11 +13,9 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             this->constructHaffmantree();
             this->encodeFromRoot(this->root,"");
             mapInit();
-<<<<<<< HEAD
             encodeFile(file); 
-            outputMapToFile();
-=======
->>>>>>> 420bcfde70117fef19d544330b6df3ea8c6562d6
+//            outputMapToFile();
+            outputNodeListToFile();
             break;
         case 2:
             mapInit(file);
@@ -353,12 +351,18 @@ void HaffmanTree::mapInit(std::fstream* input_file) {
             std::string code;
             char cha;
             char c = input_file->get();
-            while (c != ' ')
+            while (c != '\t')
             {
                 code += c;
                 c = input_file->get();
             }
             c = input_file->get();
+
+            while (c != '\t')
+            {
+                c = input_file->get();
+            }
+            
             if (c != '\n')
             {
                 cha = c;
@@ -367,6 +371,7 @@ void HaffmanTree::mapInit(std::fstream* input_file) {
                     c = input_file->get();
                     if (c == 'n') cha = '\n';
                     if (c == 'r') cha = '\r';
+                    if (c == 's') cha = '\40';
                 }
             }
             c = input_file->get();

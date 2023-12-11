@@ -15,7 +15,6 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             mapInit();
             encodeFile(file); 
 //            outputMapToFile();
-            outputNodeListToFile();
             break;
         case 2:
             mapInit(file);
@@ -143,8 +142,8 @@ void HaffmanTree::outputNodeListToConsole(){
  */
 void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
-    std::ofstream outFile("../bin/nodeList.txt");
-    if (!outFile) {
+    std::ofstream outFile("../src/nodeList.txt", std::ios::out);
+    if (!outFile.is_open()) {
         throw "无法打开文件\n";
         return;
     }
@@ -157,7 +156,7 @@ void HaffmanTree::outputNodeListToFile(){
             outFile << "\\t" << '\t' << n->weight << '\t' << n->code << '\n';
         }
         else if(n->data == ' ') {
-            outFile << "空格" << '\t' << n->weight << '\t' << n->code << '\n';
+            outFile << "\40" << '\t' << n->weight << '\t' << n->code << '\n';
         }
         else if(n->data == '\t') {
             outFile << "\\t" << '\t' << n->weight << '\t' << n->code << '\n' ;

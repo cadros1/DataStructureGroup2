@@ -1,5 +1,5 @@
 #include "HaffmanTree.h"
-
+#include <fstream>
 /**
  * @brief HaffmanTree的构造函数
  * @param file 指向一个fstream对象的指针
@@ -135,7 +135,6 @@ void HaffmanTree::outputNodeListToConsole(){
  */
 void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
-    //TODO
     std::ofstream outFile("../resources/haffmanCode.txt");
     if (!outFile) {
         std::cerr << "无法打开文件\n";

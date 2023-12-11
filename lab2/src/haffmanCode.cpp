@@ -18,7 +18,7 @@ int main(){
                 file.open(askForFileName(),std::ios::in|std::ios::out|std::ios::binary);
                 try{
                     tree=new HaffmanTree(&file,1);
-                    std::cout<<"编码成功！\n1.输出编码数据至控制台\t2.输出编码数据至文件\t3.将文件编码后输出并获取压缩率\n键入选项编号以继续：";
+                    std::cout<<"编码成功！\n1.输出编码数据至控制台\t2.输出编码数据至文件并获取压缩率\n键入选项编号以继续：";
                     std::cin.ignore(1000,'\n');
                     std::cin>>choice;
                     std::cout<<"\n";
@@ -29,9 +29,9 @@ int main(){
                         case 2:
                             tree->outputNodeListToFile();
                             break;
-                        case 3:
-                            tree->encodeFile(&file);
-                            tree->outputMapToFile();
+//                         case 3:
+//                             tree->encodeFile(&file);
+//                             tree->outputMapToFile();
                             break;
                         default:
                             std::cout<<"\n无效选项！将默认输出编码数据至控制台\n";

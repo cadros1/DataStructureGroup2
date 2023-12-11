@@ -40,6 +40,9 @@ void HaffmanTree::calculateWeightFromFile(std::fstream* file){
     char c;
     while(file->peek()!=EOF){
         file->get(c);
+        if (c == '\r') {
+            continue;
+        }
         bool isExist=false;
         for(int i=0;i<this->nodeList.size();i++){
             if(this->nodeList[i]->data==c){
@@ -164,6 +167,9 @@ void HaffmanTree::outputNodeListToFile(){
             outFile << n->data << '\t' << n->weight << '\t' << n->code << '\n';
     }
     outFile.close();
+
+    double compression_rate = (double)file_words*8 / bits_writtern_in;
+    printf("压缩率：%lf", compression_rate);
 }
 
 
@@ -293,9 +299,11 @@ void HaffmanTree::encodeFile(std::fstream* file){
     int buffer_count = 0;
     int bit_count = 0;
     char c;
+    int total_words = 0;
     while (file->peek() != EOF)
     {
         file->get(c);
+        total_words++;
         std::string c_huffcode = char_map[c];
         for (int i = 0; i < c_huffcode.size(); i++)
         {
@@ -308,6 +316,7 @@ void HaffmanTree::encodeFile(std::fstream* file){
             bit_count = (bit_count + 1) % 8;
         }
     }
+    file_words = total_words;
     writeBitsToFile(my_buffer);
 }
 
@@ -337,8 +346,9 @@ void HaffmanTree::decodeFile(std::fstream* file){
                 if (code_map.find(guess) != code_map.end())
                 {
                     outfile.write((char*)&code_map[guess], 1);
+                    char_written_in++;
                     guess.clear();
-                    if (total_bits == bits_writtern_in) return;
+                    if (char_written_in == file_words) return;
                 }
                 if(read_in.size() == 0) break;
             }
@@ -380,7 +390,10 @@ void HaffmanTree::mapInit(std::fstream* input_file) {
                 c = input_file->get();
                 if (c == 'n') cha = '\n';
                 if (c == 'r') cha = '\r';
-                if (c == 's') cha = '\40';
+                if (c == '4'){
+                    cha = '\40';
+                    c = input_file->get();
+                } 
             }
             c = input_file->get();
 

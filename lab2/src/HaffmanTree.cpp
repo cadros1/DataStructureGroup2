@@ -41,9 +41,6 @@ void HaffmanTree::calculateWeightFromFile(std::fstream* file){
     char c;
     while(file->peek()!=EOF){
         file->get(c);
-        if(c=='\n'||c==' '){
-            continue;
-        }
         bool isExist=false;
         for(int i=0;i<this->nodeList.size();i++){
             if(this->nodeList[i]->data==c){
@@ -122,7 +119,20 @@ void HaffmanTree::sortList(int left,int right){
 void HaffmanTree::outputNodeListToConsole(){
     std::cout<<"字符\t频率\t编码\n";
     for(auto n:this->nodeList){
-        std::cout<<n->data<<'\t'<<n->weight<<'\t'<<n->code<<'\n';
+        if(n->data == '\n') {
+            std::cout << "\\n" << '\t' << n->weight << '\t' << n->code << '\n';
+        } 
+        else if(n->data == '\r') {
+            std::cout << "\\r" << '\t' << n->weight << '\t' << n->code << '\n';
+        }
+        else if(n->data == ' ') {
+            std::cout << "空格" << '\t' << n->weight << '\t' << n->code << '\n';
+        }
+        else if(n->data == '\t') {
+            std::cout << "\\t" << '\t' << n->weight << '\t' << n->code << '\n' ;
+        }
+        else
+            std::cout<<n->data<<'\t'<<n->weight<<'\t'<<n->code<<'\n';
     }
 }
 
@@ -133,14 +143,27 @@ void HaffmanTree::outputNodeListToConsole(){
  */
 void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
-    std::ofstream outFile("../resources/haffmanCode.txt");
+    std::ofstream outFile("../bin/nodeList.txt");
     if (!outFile) {
         throw "无法打开文件\n";
         return;
     }
     outFile << "字符\t频率\t编码\n";
     for(auto n:this->nodeList){
-        outFile << n->data << '\t' << n->weight << '\t' << n->code << '\n';
+        if(n->data == '\n') {
+            outFile << "\\n" << '\t' << n->weight << '\t' << n->code << '\n';
+        } 
+        else if(n->data == '\t') {
+            outFile << "\\t" << '\t' << n->weight << '\t' << n->code << '\n';
+        }
+        else if(n->data == ' ') {
+            outFile << "空格" << '\t' << n->weight << '\t' << n->code << '\n';
+        }
+        else if(n->data == '\t') {
+            outFile << "\\t" << '\t' << n->weight << '\t' << n->code << '\n' ;
+        }
+        else
+            outFile << n->data << '\t' << n->weight << '\t' << n->code << '\n';
     }
     outFile.close();
 }

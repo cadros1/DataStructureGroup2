@@ -147,7 +147,6 @@ void HaffmanTree::outputNodeListToFile(){
         throw "无法打开文件\n";
         return;
     }
-    outFile << "字符\t频率\t编码\n";
     for(auto n:this->nodeList){
         if(n->data == '\n') {
             outFile << "\\n" << '\t' << n->weight << '\t' << n->code << '\n';
@@ -371,31 +370,39 @@ void HaffmanTree::mapInit(std::fstream* input_file) {
         while (input_file->peek() != EOF)
         {
             std::string code;
+            std::string frequncy;
             char cha;
             char c = input_file->get();
-            while (c != '\t')
+
+            cha = c;
+            if (cha == '\\')
             {
-                code += c;
                 c = input_file->get();
+                if (c == 'n') cha = '\n';
+                if (c == 'r') cha = '\r';
+                if (c == 's') cha = '\40';
             }
             c = input_file->get();
 
-            while (c != '\t')
-            {
+            while (c == '\t') {
                 c = input_file->get();
             }
+
+            while (c != '\t') {
+                frequncy += c;
+                c = input_file->get();
+            }      
+            file_words += std::stoi(frequncy);     
+
+            while (c == '\t') {
+                c = input_file->get();
+            }            
             
-            if (c != '\n')
-            {
-                cha = c;
-                if (cha == '\\')
-                {
-                    c = input_file->get();
-                    if (c == 'n') cha = '\n';
-                    if (c == 'r') cha = '\r';
-                    if (c == 's') cha = '\40';
-                }
+            while (c != '\r') {
+                code += c;
+                c = input_file->get();
             }
+
             c = input_file->get();
             code_map[code] = cha;
         }

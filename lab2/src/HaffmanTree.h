@@ -38,6 +38,7 @@ class HaffmanTree{
     std::map<char, std::string> char_map;
     std::map<std::string, char> code_map;
     int bits_writtern_in = 0;
+    int file_words = 0;
 
     void calculateWeightFromFile(std::fstream* file);
     void sortList(int left,int right);

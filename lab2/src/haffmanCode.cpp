@@ -4,13 +4,12 @@ int main(){
     SetConsoleOutputCP(CP_UTF8);
 
     HaffmanTree* tree;
-
+    std::cout<<"=============================欢迎使用haffman编码器=============================\n";
+    std::cout<<"1.对文件进行编码\n";
+    std::cout<<"2.解码文件以获取原始文本\n";
+    std::cout<<"3.退出\n";
     while(true){
-        std::cout<<"=============================欢迎使用haffman编码器=============================\n";
-        std::cout<<"1.对文件进行编码\n";
-        std::cout<<"2.解码文件以获取原始文本\n";
-        std::cout<<"3.退出\n\n";
-        std::cout<<"请输入选项编号: ";
+        std::cout<<"\n请输入选项编号: ";
         int choice;
         std::fstream file;
         std::cin>>choice;
@@ -28,12 +27,11 @@ int main(){
                             tree->outputNodeListToConsole();
                             break;
                         case 2:
-                            //TODO
-                            tree->outputNodeListToFile();   //请实现该函数！
+                            tree->outputNodeListToFile();
                             break;
                         case 3:
-                            //TODO
-
+                            tree->encodeFile(&file);
+                            tree->outputMapToFile();
                             break;
                         default:
                             std::cout<<"\n无效选项！将默认输出编码数据至控制台\n";
@@ -48,10 +46,16 @@ int main(){
                 }
                 break;
             case 2:
-                //TODO
-                file.open(askForFileName(),std::ios::in|std::ios::out|std::ios::binary);
-                tree=new HaffmanTree(&file,2);
-                break;
+                try{
+                    file.open(askForFileName(),std::ios::in|std::ios::out|std::ios::binary);
+                    tree=new HaffmanTree(&file,2);
+                    std::cout<<"解码后文本已输出至../decode.txt，请检查\n";
+                    break;
+                }catch(const char* e){
+                    std::cout<<e<<"\n";
+                }catch(const std::exception& e){
+                    std::cout<<e.what()<<"\n";
+                }
             case 3:
                 exit(0);
                 break;

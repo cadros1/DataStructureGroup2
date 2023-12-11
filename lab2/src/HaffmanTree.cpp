@@ -1,5 +1,4 @@
 #include "HaffmanTree.h"
-
 /**
  * @brief HaffmanTree的构造函数
  * @param file 指向一个fstream对象的指针
@@ -14,11 +13,13 @@ HaffmanTree::HaffmanTree(std::fstream* file,int choice){
             this->constructHaffmantree();
             this->encodeFromRoot(this->root,"");
             mapInit();
+<<<<<<< HEAD
             encodeFile(file); 
             outputMapToFile();
+=======
+>>>>>>> 420bcfde70117fef19d544330b6df3ea8c6562d6
             break;
         case 2:
-            //TODO
             mapInit(file);
             decodeFile(&f);
             break;
@@ -130,13 +131,20 @@ void HaffmanTree::outputNodeListToConsole(){
 /**
  * @brief 输出字符统计数据至文件
  *       数据包括字符、频率及其哈夫曼编码，按频率从小到大排列
- * @author 
+ * @author 何旭瑞
  */
 void HaffmanTree::outputNodeListToFile(){
     //要求：将编码数据输出至..\resources\haffmanCode.txt
-    //TODO
-    
-
+    std::ofstream outFile("../resources/haffmanCode.txt");
+    if (!outFile) {
+        throw "无法打开文件\n";
+        return;
+    }
+    outFile << "字符\t频率\t编码\n";
+    for(auto n:this->nodeList){
+        outFile << n->data << '\t' << n->weight << '\t' << n->code << '\n';
+    }
+    outFile.close();
 }
 
 
@@ -260,7 +268,6 @@ void HaffmanTree::free(){
  * @author 董庆宇
 */
 void HaffmanTree::encodeFile(std::fstream* file){
-    //TODO
     file->seekg(0);
     std::vector<std::vector<char>> my_buffer;
     my_buffer.push_back(std::vector<char>(8));
@@ -290,7 +297,7 @@ void HaffmanTree::encodeFile(std::fstream* file){
  * @author 董庆宇
 */
 void HaffmanTree::decodeFile(std::fstream* file){
-    std::ofstream outfile("decode.txt", std::ios::out);
+    std::ofstream outfile("../decode.txt", std::ios::out);
     if (! outfile.is_open())
     {
         throw "文件打开失败！可能是路径错误或文件不存在。";
@@ -380,7 +387,7 @@ void HaffmanTree::writeBitsToFile(std::vector<std::vector<char>> my_buffer) {
         throw "文件打开失败！可能是路径错误或文件不存在。";
     }
     else{
-        for(std::vector single_buff : my_buffer) {
+        for(std::vector<char> single_buff : my_buffer) {
             unsigned char set_bit = 1, my_8bits = 0;
             set_bit <<= 7;
             for (int i = 0; i < 8; i++) {
